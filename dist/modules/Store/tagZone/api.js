@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.TagZoneApi = void 0;
-
-var _api = require("../../../api");
-
+import { callApi } from "../../../api";
 /**
  * Add tag zone
  *
@@ -16,11 +6,12 @@ var _api = require("../../../api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/store-v1/tags-zones', searchQuery);
+  return callApi('/store-v1/tags-zones', searchQuery);
 }
 /**
  * Delete tag zone
@@ -36,7 +27,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/store-v1/tags-zones/".concat(id), searchQuery);
+  return callApi("/store-v1/tags-zones/".concat(id), searchQuery);
 }
 /**
  * Update tag zone
@@ -52,7 +43,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/store-v1/tags-zones/".concat(id), searchQuery);
+  return callApi("/store-v1/tags-zones/".concat(id), searchQuery);
 }
 /**
  * Tags moving clear zones
@@ -67,19 +58,18 @@ function clearZones(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/store-v1/tags-moving/clear-zones', searchQuery);
+  return callApi('/store-v1/tags-moving/clear-zones', searchQuery);
 }
 
-var TagZoneApi = {
+export var TagZoneApi = {
   list: function list(searchQuery) {
-    return (0, _api.callApi)('/store-v1/tags-zones', searchQuery);
+    return callApi('/store-v1/tags-zones', searchQuery);
   },
   create: create,
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/store-v1/tags-zones/".concat(id), searchQuery);
+    return callApi("/store-v1/tags-zones/".concat(id), searchQuery);
   },
   "delete": deleteModel,
   update: update,
   clearZones: clearZones
 };
-exports.TagZoneApi = TagZoneApi;

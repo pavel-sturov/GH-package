@@ -1,27 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _effects = require("redux-saga/effects");
-
-var _actionCreators = require("./actionCreators");
-
-var _actionSelectors = require("./actionSelectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(create),
@@ -29,6 +6,12 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(deleteModel),
     _marked5 = /*#__PURE__*/regeneratorRuntime.mark(update);
 
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { takeLatest } from 'redux-saga/effects';
+import { CompaniesActions } from "./actionCreators";
+import { CompaniesSelectors } from "./actionSelectors";
+import { COMPANIES_ACTION } from "./actionTypes";
+import { CompaniesApi } from "./api";
 /**
  * Get companies list
  *
@@ -36,13 +19,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{company, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.CompaniesApi.list);
+          return SagasHelper.defaultList(action, CompaniesApi.list);
 
         case 2:
         case "end":
@@ -66,7 +50,7 @@ function create(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.CompaniesApi.create);
+          return SagasHelper.defaultCreate(action, CompaniesApi.create);
 
         case 2:
         case "end":
@@ -90,7 +74,7 @@ function view(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.CompaniesApi.view);
+          return SagasHelper.defaultView(action, CompaniesApi.view);
 
         case 2:
         case "end":
@@ -114,7 +98,7 @@ function deleteModel(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.CompaniesApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return SagasHelper.defaultDelete(action, CompaniesApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var _len,
                 params,
                 _key,
@@ -129,7 +113,7 @@ function deleteModel(action) {
                     }
 
                     _context4.next = 3;
-                    return _SagasHelper["default"].afterDeleteModelFromList.apply(_SagasHelper["default"], params.concat([_actionSelectors.CompaniesSelectors.list, _actionCreators.CompaniesActions.setList]));
+                    return SagasHelper.afterDeleteModelFromList.apply(SagasHelper, params.concat([CompaniesSelectors.list, CompaniesActions.setList]));
 
                   case 3:
                   case "end":
@@ -161,7 +145,7 @@ function update(action) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.CompaniesApi.update);
+          return SagasHelper.defaultUpdate(action, CompaniesApi.update);
 
         case 2:
         case "end":
@@ -171,5 +155,4 @@ function update(action) {
   }, _marked5);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.COMPANIES_ACTION.LIST, list), (0, _effects.takeLatest)(_actionTypes.COMPANIES_ACTION.CREATE, create), (0, _effects.takeLatest)(_actionTypes.COMPANIES_ACTION.VIEW, view), (0, _effects.takeLatest)(_actionTypes.COMPANIES_ACTION.DELETE, deleteModel), (0, _effects.takeLatest)(_actionTypes.COMPANIES_ACTION.UPDATE, update)];
-exports["default"] = _default;
+export default [takeLatest(COMPANIES_ACTION.LIST, list), takeLatest(COMPANIES_ACTION.CREATE, create), takeLatest(COMPANIES_ACTION.VIEW, view), takeLatest(COMPANIES_ACTION.DELETE, deleteModel), takeLatest(COMPANIES_ACTION.UPDATE, update)];

@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CustomerNotificationsApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Get customer notifications
  *
@@ -16,8 +6,9 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/customers-notifications', searchQuery);
+  return callApi('/v1/customers-notifications', searchQuery);
 }
 /**
  * Update customer notification
@@ -33,14 +24,13 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/customers-notifications/".concat(id), searchQuery);
+  return callApi("/v1/customers-notifications/".concat(id), searchQuery);
 }
 
-var CustomerNotificationsApi = {
+export var CustomerNotificationsApi = {
   list: list,
   update: update,
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/v1/customers-notifications/".concat(id), searchQuery);
+    return callApi("/v1/customers-notifications/".concat(id), searchQuery);
   }
 };
-exports.CustomerNotificationsApi = CustomerNotificationsApi;

@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CategoriesApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Get list categories
  *
@@ -16,8 +6,9 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/categories', searchQuery);
+  return callApi('/v1/categories', searchQuery);
 }
 /**
  * Create category
@@ -32,7 +23,7 @@ function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/categories', searchQuery);
+  return callApi('/v1/categories', searchQuery);
 }
 /**
  * Update category
@@ -48,7 +39,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/categories/".concat(id), searchQuery);
+  return callApi("/v1/categories/".concat(id), searchQuery);
 }
 /**
  * Delete category
@@ -64,25 +55,24 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/categories/".concat(id), searchQuery);
+  return callApi("/v1/categories/".concat(id), searchQuery);
 }
 
-var CategoriesApi = {
+export var CategoriesApi = {
   list: list,
   create: create,
   update: update,
   "delete": deleteModel,
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/v1/categories/".concat(id), searchQuery);
+    return callApi("/v1/categories/".concat(id), searchQuery);
   },
   fetchHierarchicalCategories: function fetchHierarchicalCategories(searchQuery) {
-    return (0, _api.callApi)('/v1/categories/hierarchical', searchQuery);
+    return callApi('/v1/categories/hierarchical', searchQuery);
   },
   popularCategories: function popularCategories(searchQuery) {
-    return (0, _api.callApi)("/v1/categories/popular", searchQuery);
+    return callApi("/v1/categories/popular", searchQuery);
   },
   filters: function filters(id, searchQuery) {
-    return (0, _api.callApi)("/v1/categories/filters/".concat(id), searchQuery);
+    return callApi("/v1/categories/filters/".concat(id), searchQuery);
   }
 };
-exports.CategoriesApi = CategoriesApi;

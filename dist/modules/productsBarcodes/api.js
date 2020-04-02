@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ProductsBarcodesApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Create product barcode
  *
@@ -16,11 +6,12 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/products-barcodes', searchQuery);
+  return callApi('/v1/products-barcodes', searchQuery);
 }
 /**
  * Get products barcodes list
@@ -32,7 +23,7 @@ function create(searchQuery) {
 
 
 function list(searchQuery) {
-  return (0, _api.callApi)("/v1/products-barcodes", searchQuery);
+  return callApi("/v1/products-barcodes", searchQuery);
 }
 /**
  * Update product barcode
@@ -48,7 +39,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/products-barcodes/".concat(id), searchQuery);
+  return callApi("/v1/products-barcodes/".concat(id), searchQuery);
 }
 /**
  * Delete product barcode
@@ -64,13 +55,12 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/products-barcodes/".concat(id), searchQuery);
+  return callApi("/v1/products-barcodes/".concat(id), searchQuery);
 }
 
-var ProductsBarcodesApi = {
+export var ProductsBarcodesApi = {
   create: create,
   list: list,
   update: update,
   "delete": deleteModel
 };
-exports.ProductsBarcodesApi = ProductsBarcodesApi;

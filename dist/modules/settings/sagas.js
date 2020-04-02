@@ -1,33 +1,16 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionCreators = require("./actionCreators");
-
-var _actionSelectors = require("./actionSelectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(listAvailable),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(update),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(view);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { SettingsActions } from "./actionCreators";
+import { SettingsStateSelectors } from "./actionSelectors";
+import { SETTINGS_ACTION } from "./actionTypes";
+import { SettingsApi } from "./api";
 /**
  * List available settings
  *
@@ -35,13 +18,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(listAvailable),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{settings, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function listAvailable(action) {
   return regeneratorRuntime.wrap(function listAvailable$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.SettingsApi.listAvailable);
+          return SagasHelper.defaultView(action, SettingsApi.listAvailable);
 
         case 2:
         case "end":
@@ -65,7 +49,7 @@ function update(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.SettingsApi.update, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return SagasHelper.defaultUpdate(action, SettingsApi.update, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var _len,
                 params,
                 _key,
@@ -80,7 +64,7 @@ function update(action) {
                     }
 
                     _context2.next = 3;
-                    return _SagasHelper["default"].afterMergeModels.apply(_SagasHelper["default"], params.concat([_actionSelectors.SettingsStateSelectors.list, _actionCreators.SettingsActions.setList]));
+                    return SagasHelper.afterMergeModels.apply(SagasHelper, params.concat([SettingsStateSelectors.list, SettingsActions.setList]));
 
                   case 3:
                   case "end":
@@ -112,7 +96,7 @@ function list(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.SettingsApi.list);
+          return SagasHelper.defaultList(action, SettingsApi.list);
 
         case 2:
         case "end":
@@ -136,7 +120,7 @@ function view(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.SettingsApi.view);
+          return SagasHelper.defaultView(action, SettingsApi.view);
 
         case 2:
         case "end":
@@ -146,5 +130,4 @@ function view(action) {
   }, _marked4);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.SETTINGS_ACTION.LIST_AVAILABLE, listAvailable), (0, _effects.takeLatest)(_actionTypes.SETTINGS_ACTION.UPDATE, update), (0, _effects.takeLatest)(_actionTypes.SETTINGS_ACTION.LIST, list), (0, _effects.takeLatest)(_actionTypes.SETTINGS_ACTION.VIEW, view)];
-exports["default"] = _default;
+export default [takeLatest(SETTINGS_ACTION.LIST_AVAILABLE, listAvailable), takeLatest(SETTINGS_ACTION.UPDATE, update), takeLatest(SETTINGS_ACTION.LIST, list), takeLatest(SETTINGS_ACTION.VIEW, view)];

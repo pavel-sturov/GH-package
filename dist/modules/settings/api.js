@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SettingsApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Update setting
  *
@@ -17,13 +7,14 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true).addBody({
     name: id
   }, true);
-  return (0, _api.callApi)('/v1/settings', searchQuery);
+  return callApi('/v1/settings', searchQuery);
 }
 /**
  * Get settings list
@@ -35,7 +26,7 @@ function update(id, searchQuery) {
 
 
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/settings', searchQuery);
+  return callApi('/v1/settings', searchQuery);
 }
 /**
  * Get settings
@@ -48,15 +39,14 @@ function list(searchQuery) {
 
 
 function view(id, searchQuery) {
-  return (0, _api.callApi)("/v1/settings/view?id=".concat(id), searchQuery);
+  return callApi("/v1/settings/view?id=".concat(id), searchQuery);
 }
 
-var SettingsApi = {
+export var SettingsApi = {
   listAvailable: function listAvailable(searchQuery) {
-    return (0, _api.callApi)('/v1/settings/list', searchQuery);
+    return callApi('/v1/settings/list', searchQuery);
   },
   update: update,
   list: list,
   view: view
 };
-exports.SettingsApi = SettingsApi;

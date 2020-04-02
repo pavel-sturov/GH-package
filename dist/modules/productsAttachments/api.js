@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ProductsAttachmentsApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Create products attachment
  *
@@ -16,11 +6,12 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/products-attachments', searchQuery);
+  return callApi('/v1/products-attachments', searchQuery);
 }
 /**
  * Get products attachments list
@@ -32,7 +23,7 @@ function create(searchQuery) {
 
 
 function list(searchQuery) {
-  return (0, _api.callApi)("/v1/products-attachments", searchQuery);
+  return callApi("/v1/products-attachments", searchQuery);
 }
 /**
  * Update products attachment
@@ -48,7 +39,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/products-attachments/".concat(id), searchQuery);
+  return callApi("/v1/products-attachments/".concat(id), searchQuery);
 }
 /**
  * Delete products attachment
@@ -64,7 +55,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/products-attachments/".concat(id), searchQuery);
+  return callApi("/v1/products-attachments/".concat(id), searchQuery);
 }
 /**
  * Get products attachment
@@ -77,14 +68,13 @@ function deleteModel(id, searchQuery) {
 
 
 function view(id, searchQuery) {
-  return (0, _api.callApi)("/v1/products-attachments/".concat(id), searchQuery);
+  return callApi("/v1/products-attachments/".concat(id), searchQuery);
 }
 
-var ProductsAttachmentsApi = {
+export var ProductsAttachmentsApi = {
   create: create,
   list: list,
   update: update,
   "delete": deleteModel,
   view: view
 };
-exports.ProductsAttachmentsApi = ProductsAttachmentsApi;

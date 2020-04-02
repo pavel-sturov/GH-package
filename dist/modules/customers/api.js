@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CustomersApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Create customer
  *
@@ -16,11 +6,12 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/customers', searchQuery);
+  return callApi('/v1/customers', searchQuery);
 }
 /**
  * Get list customers
@@ -32,7 +23,7 @@ function create(searchQuery) {
 
 
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/customers', searchQuery);
+  return callApi('/v1/customers', searchQuery);
 }
 /**
  * Update customer
@@ -48,7 +39,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/customers/".concat(id), searchQuery);
+  return callApi("/v1/customers/".concat(id), searchQuery);
 }
 /**
  * Delete customer
@@ -64,7 +55,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/customers/".concat(id), searchQuery);
+  return callApi("/v1/customers/".concat(id), searchQuery);
 }
 /**
  * Update customer avatar
@@ -80,7 +71,7 @@ function uploadAvatar(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)("/v1/customers/upload-avatar/".concat(id), searchQuery);
+  return callApi("/v1/customers/upload-avatar/".concat(id), searchQuery);
 }
 /**
  * Delete customer avatar
@@ -96,7 +87,7 @@ function deleteAvatar(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)("/v1/customers/delete-avatar/".concat(id), searchQuery);
+  return callApi("/v1/customers/delete-avatar/".concat(id), searchQuery);
 }
 /**
  * Send push notifications
@@ -111,13 +102,13 @@ function sendPush(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)("/v1/customers/send-push-notifications", searchQuery);
+  return callApi("/v1/customers/send-push-notifications", searchQuery);
 }
 
-var CustomersApi = {
+export var CustomersApi = {
   create: create,
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/v1/customers/".concat(id), searchQuery);
+    return callApi("/v1/customers/".concat(id), searchQuery);
   },
   list: list,
   update: update,
@@ -126,4 +117,3 @@ var CustomersApi = {
   deleteAvatar: deleteAvatar,
   sendPush: sendPush
 };
-exports.CustomersApi = CustomersApi;

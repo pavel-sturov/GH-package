@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ProductsRelationsApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Create product relation
  *
@@ -16,11 +6,12 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/products-relations', searchQuery);
+  return callApi('/v1/products-relations', searchQuery);
 }
 /**
  * Get products relations list
@@ -32,7 +23,7 @@ function create(searchQuery) {
 
 
 function list(searchQuery) {
-  return (0, _api.callApi)("/v1/products-relations", searchQuery);
+  return callApi("/v1/products-relations", searchQuery);
 }
 /**
  * Delete product relation
@@ -48,7 +39,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/products-relations/".concat(id), searchQuery);
+  return callApi("/v1/products-relations/".concat(id), searchQuery);
 }
 /**
  * Get product relation
@@ -61,13 +52,12 @@ function deleteModel(id, searchQuery) {
 
 
 function view(id, searchQuery) {
-  return (0, _api.callApi)("/v1/products-relations/".concat(id), searchQuery);
+  return callApi("/v1/products-relations/".concat(id), searchQuery);
 }
 
-var ProductsRelationsApi = {
+export var ProductsRelationsApi = {
   create: create,
   list: list,
   "delete": deleteModel,
   view: view
 };
-exports.ProductsRelationsApi = ProductsRelationsApi;

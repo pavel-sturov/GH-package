@@ -1,12 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CART_ACTION = void 0;
-var CART_ACTION = {
+export var CART_ACTION = {
   LIST: 'LIST_CART_PRODUCT',
   UPDATE: 'UPDATE_CART_PRODUCT',
   CREATE: 'CREATE_CART_PRODUCT',
@@ -18,4 +10,3 @@ var CART_ACTION = {
   CREATE_ORDER_TERRMINAL: 'CART_CREATE_ORDER_TERRMINAL',
   START_SESSION_TERMINAL: 'CART_START_SESSION_TERMINAL'
 };
-exports.CART_ACTION = CART_ACTION;

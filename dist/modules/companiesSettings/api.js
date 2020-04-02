@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CompaniesSettingsApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Update company settings
  *
@@ -17,17 +7,17 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/companies-settings/".concat(id), searchQuery);
+  return callApi("/v1/companies-settings/".concat(id), searchQuery);
 }
 
-var CompaniesSettingsApi = {
+export var CompaniesSettingsApi = {
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/v1/companies-settings/".concat(id), searchQuery);
+    return callApi("/v1/companies-settings/".concat(id), searchQuery);
   },
   update: update
 };
-exports.CompaniesSettingsApi = CompaniesSettingsApi;

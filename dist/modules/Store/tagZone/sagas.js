@@ -1,27 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionCreators = require("./actionCreators");
-
-var _actionSelectors = require("./actionSelectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(create),
@@ -30,6 +7,12 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked5 = /*#__PURE__*/regeneratorRuntime.mark(update),
     _marked6 = /*#__PURE__*/regeneratorRuntime.mark(clearZones);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { TagZoneActions } from "./actionCreators";
+import { TagZoneSelectors } from "./actionSelectors";
+import { TAG_ZONE_ACTIONS } from "./actionTypes";
+import { TagZoneApi } from "./api";
 /**
  * Get tag zone list
  *
@@ -37,13 +20,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{tagZone, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.TagZoneApi.list);
+          return SagasHelper.defaultList(action, TagZoneApi.list);
 
         case 2:
         case "end":
@@ -67,7 +51,7 @@ function create(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.TagZoneApi.create);
+          return SagasHelper.defaultCreate(action, TagZoneApi.create);
 
         case 2:
         case "end":
@@ -91,7 +75,7 @@ function view(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.TagZoneApi.view);
+          return SagasHelper.defaultView(action, TagZoneApi.view);
 
         case 2:
         case "end":
@@ -115,7 +99,7 @@ function deleteModel(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.TagZoneApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return SagasHelper.defaultDelete(action, TagZoneApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var _len,
                 params,
                 _key,
@@ -130,7 +114,7 @@ function deleteModel(action) {
                     }
 
                     _context4.next = 3;
-                    return _SagasHelper["default"].afterDeleteModelFromList.apply(_SagasHelper["default"], params.concat([_actionSelectors.TagZoneSelectors.list, _actionCreators.TagZoneActions.setList]));
+                    return SagasHelper.afterDeleteModelFromList.apply(SagasHelper, params.concat([TagZoneSelectors.list, TagZoneActions.setList]));
 
                   case 3:
                   case "end":
@@ -162,7 +146,7 @@ function update(action) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.TagZoneApi.update);
+          return SagasHelper.defaultUpdate(action, TagZoneApi.update);
 
         case 2:
         case "end":
@@ -186,7 +170,7 @@ function clearZones(action) {
       switch (_context7.prev = _context7.next) {
         case 0:
           _context7.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.TagZoneApi.clearZones);
+          return SagasHelper.defaultCreate(action, TagZoneApi.clearZones);
 
         case 2:
         case "end":
@@ -196,5 +180,4 @@ function clearZones(action) {
   }, _marked6);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.TAG_ZONE_ACTIONS.LIST, list), (0, _effects.takeLatest)(_actionTypes.TAG_ZONE_ACTIONS.CREATE, create), (0, _effects.takeLatest)(_actionTypes.TAG_ZONE_ACTIONS.VIEW, view), (0, _effects.takeLatest)(_actionTypes.TAG_ZONE_ACTIONS.DELETE, deleteModel), (0, _effects.takeLatest)(_actionTypes.TAG_ZONE_ACTIONS.UPDATE, update), (0, _effects.takeLatest)(_actionTypes.TAG_ZONE_ACTIONS.CLEAR_ZONES, clearZones)];
-exports["default"] = _default;
+export default [takeLatest(TAG_ZONE_ACTIONS.LIST, list), takeLatest(TAG_ZONE_ACTIONS.CREATE, create), takeLatest(TAG_ZONE_ACTIONS.VIEW, view), takeLatest(TAG_ZONE_ACTIONS.DELETE, deleteModel), takeLatest(TAG_ZONE_ACTIONS.UPDATE, update), takeLatest(TAG_ZONE_ACTIONS.CLEAR_ZONES, clearZones)];

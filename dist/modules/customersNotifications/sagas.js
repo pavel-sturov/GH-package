@@ -1,32 +1,15 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionCreators = require("./actionCreators");
-
-var _actionSelectors = require("./actionSelectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(update),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(view);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { CustomerNotificationsActions } from "./actionCreators";
+import { CustomerNotificationsSelectors } from "./actionSelectors";
+import { NOTIFICATIONS_ACTIONS } from "./actionTypes";
+import { CustomerNotificationsApi } from "./api";
 /**
  * Get customer notifications
  *
@@ -34,13 +17,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{user, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.CustomerNotificationsApi.list);
+          return SagasHelper.defaultList(action, CustomerNotificationsApi.list);
 
         case 2:
         case "end":
@@ -64,7 +48,7 @@ function update(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.CustomerNotificationsApi.update, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return SagasHelper.defaultUpdate(action, CustomerNotificationsApi.update, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var _len,
                 params,
                 _key,
@@ -79,11 +63,11 @@ function update(action) {
                     }
 
                     _context2.next = 3;
-                    return _SagasHelper["default"].afterMergeModels.apply(_SagasHelper["default"], params.concat([_actionSelectors.CustomerNotificationsSelectors.list, _actionCreators.CustomerNotificationsActions.setList]));
+                    return SagasHelper.afterMergeModels.apply(SagasHelper, params.concat([CustomerNotificationsSelectors.list, CustomerNotificationsActions.setList]));
 
                   case 3:
                     _context2.next = 5;
-                    return _SagasHelper["default"].afterMergeModels.apply(_SagasHelper["default"], params.concat([_actionSelectors.CustomerNotificationsSelectors.smartList, _actionCreators.CustomerNotificationsActions.setSmartList]));
+                    return SagasHelper.afterMergeModels.apply(SagasHelper, params.concat([CustomerNotificationsSelectors.smartList, CustomerNotificationsActions.setSmartList]));
 
                   case 5:
                   case "end":
@@ -115,7 +99,7 @@ function view(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.CustomerNotificationsApi.view);
+          return SagasHelper.defaultView(action, CustomerNotificationsApi.view);
 
         case 2:
         case "end":
@@ -125,5 +109,4 @@ function view(action) {
   }, _marked3);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.NOTIFICATIONS_ACTIONS.LIST, list), (0, _effects.takeLatest)(_actionTypes.NOTIFICATIONS_ACTIONS.SMART_LIST, list), (0, _effects.takeLatest)(_actionTypes.NOTIFICATIONS_ACTIONS.VIEW, view), (0, _effects.takeLatest)(_actionTypes.NOTIFICATIONS_ACTIONS.UPDATE, update)];
-exports["default"] = _default;
+export default [takeLatest(NOTIFICATIONS_ACTIONS.LIST, list), takeLatest(NOTIFICATIONS_ACTIONS.SMART_LIST, list), takeLatest(NOTIFICATIONS_ACTIONS.VIEW, view), takeLatest(NOTIFICATIONS_ACTIONS.UPDATE, update)];

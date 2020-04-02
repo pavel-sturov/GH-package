@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CustomerAddressesApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Get customer adresses
  *
@@ -16,8 +6,9 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/customers-addresses', searchQuery);
+  return callApi('/v1/customers-addresses', searchQuery);
 }
 /**
  * Add customer address
@@ -32,7 +23,7 @@ function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/customers-addresses', searchQuery);
+  return callApi('/v1/customers-addresses', searchQuery);
 }
 /**
  * Delete customer address
@@ -48,7 +39,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/customers-addresses/".concat(id), searchQuery);
+  return callApi("/v1/customers-addresses/".concat(id), searchQuery);
 }
 /**
  * Update address
@@ -64,16 +55,15 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/customers-addresses/".concat(id), searchQuery);
+  return callApi("/v1/customers-addresses/".concat(id), searchQuery);
 }
 
-var CustomerAddressesApi = {
+export var CustomerAddressesApi = {
   list: list,
   create: create,
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/v1/customers-addresses/".concat(id), searchQuery);
+    return callApi("/v1/customers-addresses/".concat(id), searchQuery);
   },
   "delete": deleteModel,
   update: update
 };
-exports.CustomerAddressesApi = CustomerAddressesApi;

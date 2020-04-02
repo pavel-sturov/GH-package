@@ -1,27 +1,12 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(view),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(update);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { CUSTOMER_SETTINGS_ACTIONS } from "./actionTypes";
+import { CustomersSettingsApi } from "./api";
 /**
  * View customer settings
  *
@@ -29,13 +14,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(view),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{cities, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function view(action) {
   return regeneratorRuntime.wrap(function view$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.CustomersSettingsApi.view);
+          return SagasHelper.defaultView(action, CustomersSettingsApi.view);
 
         case 2:
         case "end":
@@ -59,7 +45,7 @@ function update(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.CustomersSettingsApi.update);
+          return SagasHelper.defaultUpdate(action, CustomersSettingsApi.update);
 
         case 2:
         case "end":
@@ -69,5 +55,4 @@ function update(action) {
   }, _marked2);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.CUSTOMER_SETTINGS_ACTIONS.VIEW, view), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_SETTINGS_ACTIONS.UPDATE, update)];
-exports["default"] = _default;
+export default [takeLatest(CUSTOMER_SETTINGS_ACTIONS.VIEW, view), takeLatest(CUSTOMER_SETTINGS_ACTIONS.UPDATE, update)];

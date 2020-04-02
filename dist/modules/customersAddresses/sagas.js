@@ -1,25 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _SagasHelper2 = require("helpers/Redux/SagasHelper");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(create),
@@ -27,6 +6,11 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(deleteModel),
     _marked5 = /*#__PURE__*/regeneratorRuntime.mark(update);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { beforeAddCustomerId } from 'helpers/Redux/SagasHelper';
+import { CUSTOMER_ADDRESSES_ACTION } from "./actionTypes";
+import { CustomerAddressesApi } from "./api";
 /**
  * Get customer addresses
  *
@@ -34,13 +18,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{user, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.CustomerAddressesApi.list);
+          return SagasHelper.defaultList(action, CustomerAddressesApi.list);
 
         case 2:
         case "end":
@@ -64,7 +49,7 @@ function create(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.CustomerAddressesApi.create, _SagasHelper2.beforeAddCustomerId);
+          return SagasHelper.defaultCreate(action, CustomerAddressesApi.create, beforeAddCustomerId);
 
         case 2:
         case "end":
@@ -88,7 +73,7 @@ function view(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.CustomerAddressesApi.view);
+          return SagasHelper.defaultView(action, CustomerAddressesApi.view);
 
         case 2:
         case "end":
@@ -112,7 +97,7 @@ function deleteModel(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.CustomerAddressesApi["delete"]);
+          return SagasHelper.defaultDelete(action, CustomerAddressesApi["delete"]);
 
         case 2:
         case "end":
@@ -136,7 +121,7 @@ function update(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.CustomerAddressesApi.update);
+          return SagasHelper.defaultUpdate(action, CustomerAddressesApi.update);
 
         case 2:
         case "end":
@@ -146,5 +131,4 @@ function update(action) {
   }, _marked5);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.CUSTOMER_ADDRESSES_ACTION.LIST, list), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ADDRESSES_ACTION.CREATE, create), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ADDRESSES_ACTION.VIEW, view), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ADDRESSES_ACTION.DELETE, deleteModel), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ADDRESSES_ACTION.UPDATE, update)];
-exports["default"] = _default;
+export default [takeLatest(CUSTOMER_ADDRESSES_ACTION.LIST, list), takeLatest(CUSTOMER_ADDRESSES_ACTION.CREATE, create), takeLatest(CUSTOMER_ADDRESSES_ACTION.VIEW, view), takeLatest(CUSTOMER_ADDRESSES_ACTION.DELETE, deleteModel), takeLatest(CUSTOMER_ADDRESSES_ACTION.UPDATE, update)];

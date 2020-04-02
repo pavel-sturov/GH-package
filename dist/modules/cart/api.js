@@ -1,18 +1,5 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CartApi = void 0;
-
-var _api = require("../../api");
-
-var _SearchQuery = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/DataProvider/SearchQuery"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+import { callApi } from "../../api";
+import SearchQuery from '@kakadu-dev/base-frontend-helpers/helpers/DataProvider/SearchQuery';
 /**
  * Get cart products
  *
@@ -20,8 +7,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/cart', searchQuery);
+  return callApi('/v1/cart', searchQuery);
 }
 /**
  * Add product to cart
@@ -36,7 +24,7 @@ function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/cart', searchQuery);
+  return callApi('/v1/cart', searchQuery);
 }
 /**
  * Update cart product
@@ -52,7 +40,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/cart/".concat(id), searchQuery);
+  return callApi("/v1/cart/".concat(id), searchQuery);
 }
 /**
  * Delete cart product
@@ -68,7 +56,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/cart/".concat(id), searchQuery);
+  return callApi("/v1/cart/".concat(id), searchQuery);
 }
 /**
  * Delete all cart product
@@ -83,7 +71,7 @@ function deleteAll(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)('/v1/cart', searchQuery);
+  return callApi('/v1/cart', searchQuery);
 }
 /**
  * Cart get checkout info
@@ -98,7 +86,7 @@ function checkout(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/cart/checkout', searchQuery);
+  return callApi('/v1/cart/checkout', searchQuery);
 }
 /**
  * Cart get checkout info for terminal
@@ -113,7 +101,7 @@ function checkoutTerminal(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/cart/checkout-terminal', searchQuery);
+  return callApi('/v1/cart/checkout-terminal', searchQuery);
 }
 /**
  * Create order
@@ -128,7 +116,7 @@ function createOrder(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/cart/create-order', searchQuery);
+  return callApi('/v1/cart/create-order', searchQuery);
 }
 /**
  * Create order terminal
@@ -143,7 +131,7 @@ function createOrderTerminal(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/cart/create-order-terminal', searchQuery);
+  return callApi('/v1/cart/create-order-terminal', searchQuery);
 }
 /**
  * Start session terminal
@@ -158,15 +146,15 @@ function startSessionTerminal(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/cart/start-session-terminal', searchQuery);
+  return callApi('/v1/cart/start-session-terminal', searchQuery);
 }
 
-var CartApi = {
+export var CartApi = {
   list: list,
   create: create,
   update: update,
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/v1/cart/".concat(id), searchQuery);
+    return callApi("/v1/cart/".concat(id), searchQuery);
   },
   deleteModel: deleteModel,
   deleteAll: deleteAll,
@@ -176,4 +164,3 @@ var CartApi = {
   createOrderTerminal: createOrderTerminal,
   startSessionTerminal: startSessionTerminal
 };
-exports.CartApi = CartApi;

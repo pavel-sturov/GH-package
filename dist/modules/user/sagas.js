@@ -1,59 +1,14 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.is-array");
-
-require("regenerator-runtime/runtime");
-
-var _messaging = require("@kakadu-dev/base-frontend-helpers/firebase/messaging");
-
-var _DataProvider = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/DataProvider"));
-
-var _RequestActionHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper"));
-
-var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
-
-var _effects = require("redux-saga/effects");
-
-var _api = require("./api");
-
-var _config = require("config");
-
-var _Customers = require("models/Customers");
-
-var _api2 = require("../customersAuthMethods/api");
-
-var _selectors = require("../selectors");
-
-var _actionCreators = require("./actionCreators");
-
-var _actionTypes = require("./actionTypes");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "core-js/modules/es6.string.iterator";
+import "core-js/modules/es6.array.from";
+import "core-js/modules/es6.function.name";
+import "core-js/modules/es6.regexp.to-string";
+import "core-js/modules/es6.date.to-string";
+import "core-js/modules/es6.object.to-string";
+import "core-js/modules/web.dom.iterable";
+import "core-js/modules/es7.symbol.async-iterator";
+import "core-js/modules/es6.symbol";
+import "core-js/modules/es6.array.is-array";
+import "regenerator-runtime/runtime";
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -75,11 +30,24 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(viewUser),
     _marked6 = /*#__PURE__*/regeneratorRuntime.mark(updateMainUserInfo),
     _marked7 = /*#__PURE__*/regeneratorRuntime.mark(updatePushToken);
 
+import { FirebaseMessaging } from '@kakadu-dev/base-frontend-helpers/firebase/messaging';
+import DataProvider from '@kakadu-dev/base-frontend-helpers/helpers/DataProvider';
+import RequestActionHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper';
+import jwt_decode from 'jwt-decode';
+import { call, put, select, takeLatest, throttle } from 'redux-saga/effects';
+import { getJwtAccessToken, UsersApi } from "./api";
+import { BUILD_TARGET } from 'config';
+import { Customer } from 'models/Customers';
+import { CustomerAuthMethodApi } from "../customersAuthMethods/api";
+import { DispatchSelector, StateSelector } from "../selectors";
+import { UsersActions } from "./actionCreators";
+import { USER_ACTION } from "./actionTypes";
 /**
  * Store selectors
  *
  * @type {{getUserId: (function(*): *)}}
  */
+
 var selectors = {
   /**
    * Get users
@@ -89,13 +57,13 @@ var selectors = {
    * @return {*}
    */
   getUser: function getUser(state) {
-    return _selectors.StateSelector.user.getUser(state);
+    return StateSelector.user.getUser(state);
   },
   getUserCity: function getUserCity(state) {
-    return _selectors.StateSelector.user.getUserCity(state);
+    return StateSelector.user.getUserCity(state);
   },
   getUserSettings: function getUserSettings(state) {
-    return _selectors.StateSelector.user.getUserSettings(state);
+    return StateSelector.user.getUserSettings(state);
   }
 };
 /**
@@ -115,13 +83,13 @@ function viewUser(action) {
         case 0:
           payload = action.payload, type = action.type;
           id = payload.id, searchQuery = payload.searchQuery;
-          _RequestActionHelper$ = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$.request, success = _RequestActionHelper$.success, error = _RequestActionHelper$.error;
-          sQ = _DataProvider["default"].getSearchQuery(searchQuery);
-          saveUserSettings = _selectors.DispatchSelector.user.setUserSettings;
-          saveUserCity = _selectors.DispatchSelector.user.setUserCity;
+          _RequestActionHelper$ = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$.request, success = _RequestActionHelper$.success, error = _RequestActionHelper$.error;
+          sQ = DataProvider.getSearchQuery(searchQuery);
+          saveUserSettings = DispatchSelector.user.setUserSettings;
+          saveUserCity = DispatchSelector.user.setUserCity;
           _context.prev = 6;
           _context.next = 9;
-          return (0, _effects.put)(request(sQ));
+          return put(request(sQ));
 
         case 9:
           if (!id) {
@@ -130,7 +98,7 @@ function viewUser(action) {
           }
 
           _context.next = 12;
-          return (0, _effects.call)(_api.UsersApi.viewUser, id, sQ);
+          return call(UsersApi.viewUser, id, sQ);
 
         case 12:
           response = _context.sent;
@@ -139,14 +107,14 @@ function viewUser(action) {
 
         case 15:
           _context.next = 17;
-          return (0, _effects.call)(_api.UsersApi.viewCurrentUser, sQ);
+          return call(UsersApi.viewCurrentUser, sQ);
 
         case 17:
           response = _context.sent;
 
         case 18:
           _context.next = 20;
-          return (0, _effects.put)(success(response.result, sQ));
+          return put(success(response.result, sQ));
 
         case 20:
           if (!(response && response.result && response.result.settings)) {
@@ -155,7 +123,7 @@ function viewUser(action) {
           }
 
           _context.next = 23;
-          return (0, _effects.put)(saveUserSettings(response.result.settings));
+          return put(saveUserSettings(response.result.settings));
 
         case 23:
           if (!(response && response.result && response.result.city)) {
@@ -164,16 +132,16 @@ function viewUser(action) {
           }
 
           _context.next = 26;
-          return (0, _effects.put)(saveUserCity(response.result.city));
+          return put(saveUserCity(response.result.city));
 
         case 26:
-          if (!(_config.BUILD_TARGET === 'client')) {
+          if (!(BUILD_TARGET === 'client')) {
             _context.next = 33;
             break;
           }
 
           _context.next = 29;
-          return _messaging.FirebaseMessaging.getInstance().getUserToken();
+          return FirebaseMessaging.getInstance().getUserToken();
 
         case 29:
           firebasePushToken = _context.sent;
@@ -184,7 +152,7 @@ function viewUser(action) {
           }
 
           _context.next = 33;
-          return (0, _effects.put)(_actionCreators.UsersActions.updatePushToken(firebasePushToken));
+          return put(UsersActions.updatePushToken(firebasePushToken));
 
         case 33:
           sQ.runSuccessCallback(response);
@@ -195,7 +163,7 @@ function viewUser(action) {
           _context.prev = 36;
           _context.t0 = _context["catch"](6);
           _context.next = 40;
-          return (0, _effects.put)(error(sQ.addReduxRequestParams({
+          return put(error(sQ.addReduxRequestParams({
             error: _context.t0
           })));
 
@@ -229,11 +197,11 @@ function viewUserCity(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           payload = action.payload, type = action.type;
-          _RequestActionHelper$2 = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$2.request, success = _RequestActionHelper$2.success, error = _RequestActionHelper$2.error;
-          searchQuery = _DataProvider["default"].getSearchQuery(payload);
+          _RequestActionHelper$2 = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$2.request, success = _RequestActionHelper$2.success, error = _RequestActionHelper$2.error;
+          searchQuery = DataProvider.getSearchQuery(payload);
           _context2.prev = 3;
           _context2.next = 6;
-          return (0, _effects.select)(selectors.getUserCity);
+          return select(selectors.getUserCity);
 
         case 6:
           userCity = _context2.sent;
@@ -244,16 +212,16 @@ function viewUserCity(action) {
           }
 
           _context2.next = 10;
-          return (0, _effects.put)(request(searchQuery));
+          return put(request(searchQuery));
 
         case 10:
           _context2.next = 12;
-          return (0, _effects.call)(_api.UsersApi.viewUserCity, searchQuery);
+          return call(UsersApi.viewUserCity, searchQuery);
 
         case 12:
           response = _context2.sent;
           _context2.next = 15;
-          return (0, _effects.put)(success(response.result));
+          return put(success(response.result));
 
         case 15:
           searchQuery.runSuccessCallback(response);
@@ -262,7 +230,7 @@ function viewUserCity(action) {
 
         case 18:
           _context2.next = 20;
-          return (0, _effects.put)(success(userCity.result, searchQuery));
+          return put(success(userCity.result, searchQuery));
 
         case 20:
           searchQuery.runSuccessCallback(userCity);
@@ -275,7 +243,7 @@ function viewUserCity(action) {
           _context2.prev = 23;
           _context2.t0 = _context2["catch"](3);
           _context2.next = 27;
-          return (0, _effects.put)(error(searchQuery.addReduxRequestParams({
+          return put(error(searchQuery.addReduxRequestParams({
             error: _context2.t0
           })));
 
@@ -310,11 +278,11 @@ function viewUserSettings(action) {
         case 0:
           payload = action.payload, type = action.type;
           id = payload.id, searchQuery = payload.searchQuery;
-          _RequestActionHelper$3 = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$3.request, success = _RequestActionHelper$3.success, error = _RequestActionHelper$3.error;
-          sQ = _DataProvider["default"].getSearchQuery(searchQuery);
+          _RequestActionHelper$3 = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$3.request, success = _RequestActionHelper$3.success, error = _RequestActionHelper$3.error;
+          sQ = DataProvider.getSearchQuery(searchQuery);
           _context3.prev = 4;
           _context3.next = 7;
-          return (0, _effects.select)(selectors.getUser);
+          return select(selectors.getUser);
 
         case 7:
           currentUser = _context3.sent;
@@ -325,17 +293,17 @@ function viewUserSettings(action) {
           }
 
           _context3.next = 11;
-          return (0, _effects.put)(request(sQ));
+          return put(request(sQ));
 
         case 11:
           userId = id || currentUser.result && currentUser.result.id;
           _context3.next = 14;
-          return (0, _effects.call)(_api.UsersApi.viewSettings, userId, sQ);
+          return call(UsersApi.viewSettings, userId, sQ);
 
         case 14:
           response = _context3.sent;
           _context3.next = 17;
-          return (0, _effects.put)(success(response.result));
+          return put(success(response.result));
 
         case 17:
           _context3.next = 24;
@@ -343,12 +311,12 @@ function viewUserSettings(action) {
 
         case 19:
           _context3.next = 21;
-          return (0, _effects.select)(selectors.getUserSettings);
+          return select(selectors.getUserSettings);
 
         case 21:
           userSettings = _context3.sent;
           _context3.next = 24;
-          return (0, _effects.put)(success(userSettings.result, sQ));
+          return put(success(userSettings.result, sQ));
 
         case 24:
           sQ.runSuccessCallback();
@@ -359,7 +327,7 @@ function viewUserSettings(action) {
           _context3.prev = 27;
           _context3.t0 = _context3["catch"](4);
           _context3.next = 31;
-          return (0, _effects.put)(error(sQ.addReduxRequestParams({
+          return put(error(sQ.addReduxRequestParams({
             error: _context3.t0
           })));
 
@@ -394,12 +362,12 @@ function updateUser(action) {
         case 0:
           payload = action.payload, type = action.type;
           id = payload.id, searchQuery = payload.searchQuery;
-          _RequestActionHelper$4 = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$4.request, success = _RequestActionHelper$4.success, error = _RequestActionHelper$4.error;
-          sQ = _DataProvider["default"].getSearchQuery(searchQuery);
-          saveUser = _selectors.DispatchSelector.user.setUser;
+          _RequestActionHelper$4 = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$4.request, success = _RequestActionHelper$4.success, error = _RequestActionHelper$4.error;
+          sQ = DataProvider.getSearchQuery(searchQuery);
+          saveUser = DispatchSelector.user.setUser;
           _context4.prev = 5;
           _context4.next = 8;
-          return (0, _effects.put)(request(sQ));
+          return put(request(sQ));
 
         case 8:
           realId = id;
@@ -410,25 +378,25 @@ function updateUser(action) {
           }
 
           _context4.next = 12;
-          return (0, _effects.select)(selectors.getUser);
+          return select(selectors.getUser);
 
         case 12:
           currentUserState = _context4.sent;
-          user = _Customers.Customer.create(currentUserState);
+          user = Customer.create(currentUserState);
           realId = user.getId();
 
         case 15:
           _context4.next = 17;
-          return (0, _effects.call)(_api.UsersApi.updateUser, realId, sQ);
+          return call(UsersApi.updateUser, realId, sQ);
 
         case 17:
           response = _context4.sent;
           _context4.next = 20;
-          return (0, _effects.put)(success());
+          return put(success());
 
         case 20:
           _context4.next = 22;
-          return (0, _effects.put)(saveUser(response.result));
+          return put(saveUser(response.result));
 
         case 22:
           sQ.runSuccessCallback(response);
@@ -439,7 +407,7 @@ function updateUser(action) {
           _context4.prev = 25;
           _context4.t0 = _context4["catch"](5);
           _context4.next = 29;
-          return (0, _effects.put)(error(sQ.addReduxRequestParams({
+          return put(error(sQ.addReduxRequestParams({
             error: _context4.t0
           })));
 
@@ -474,12 +442,12 @@ function updateUserSettings(action) {
         case 0:
           payload = action.payload, type = action.type;
           id = payload.id, searchQuery = payload.searchQuery;
-          _RequestActionHelper$5 = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$5.request, success = _RequestActionHelper$5.success, error = _RequestActionHelper$5.error;
-          sQ = _DataProvider["default"].getSearchQuery(searchQuery);
-          setUserSetting = _selectors.DispatchSelector.user.setUserSettings;
+          _RequestActionHelper$5 = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$5.request, success = _RequestActionHelper$5.success, error = _RequestActionHelper$5.error;
+          sQ = DataProvider.getSearchQuery(searchQuery);
+          setUserSetting = DispatchSelector.user.setUserSettings;
           _context5.prev = 5;
           _context5.next = 8;
-          return (0, _effects.put)(request(sQ));
+          return put(request(sQ));
 
         case 8:
           realId = id;
@@ -490,25 +458,25 @@ function updateUserSettings(action) {
           }
 
           _context5.next = 12;
-          return (0, _effects.select)(selectors.getUser);
+          return select(selectors.getUser);
 
         case 12:
           currentUserState = _context5.sent;
-          user = _Customers.Customer.create(currentUserState);
+          user = Customer.create(currentUserState);
           realId = user.getId();
 
         case 15:
           _context5.next = 17;
-          return (0, _effects.call)(_api.UsersApi.updateSettings, realId, sQ);
+          return call(UsersApi.updateSettings, realId, sQ);
 
         case 17:
           response = _context5.sent;
           _context5.next = 20;
-          return (0, _effects.put)(success());
+          return put(success());
 
         case 20:
           _context5.next = 22;
-          return (0, _effects.put)(setUserSetting(response.result));
+          return put(setUserSetting(response.result));
 
         case 22:
           sQ.runSuccessCallback(response);
@@ -519,7 +487,7 @@ function updateUserSettings(action) {
           _context5.prev = 25;
           _context5.t0 = _context5["catch"](5);
           _context5.next = 29;
-          return (0, _effects.put)(error(sQ.addReduxRequestParams({
+          return put(error(sQ.addReduxRequestParams({
             error: _context5.t0
           })));
 
@@ -554,24 +522,24 @@ function updateMainUserInfo(action) {
         case 0:
           payload = action.payload, type = action.type;
           id = payload.id, searchQuery = payload.searchQuery;
-          _RequestActionHelper$6 = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$6.request, success = _RequestActionHelper$6.success, error = _RequestActionHelper$6.error;
-          sQ = _DataProvider["default"].getSearchQuery(searchQuery);
+          _RequestActionHelper$6 = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$6.request, success = _RequestActionHelper$6.success, error = _RequestActionHelper$6.error;
+          sQ = DataProvider.getSearchQuery(searchQuery);
           userSettingsFields = sQ.getBody().settings;
           userFields = sQ.getBody().fields;
-          updateUserFieldsAction = _selectors.DispatchSelector.user.updateUserFields;
-          updateUserSettingsAction = _selectors.DispatchSelector.user.updateUserSettings;
+          updateUserFieldsAction = DispatchSelector.user.updateUserFields;
+          updateUserSettingsAction = DispatchSelector.user.updateUserSettings;
           _context6.prev = 8;
           _context6.next = 11;
-          return (0, _effects.put)(request(sQ));
+          return put(request(sQ));
 
         case 11:
           _context6.next = 13;
           return [updateUser(updateUserFieldsAction({
             id: id,
-            searchQuery: _DataProvider["default"].buildQuery().addBody(userSettingsFields)
+            searchQuery: DataProvider.buildQuery().addBody(userSettingsFields)
           })), updateUserSettings(updateUserSettingsAction({
             id: id,
-            searchQuery: _DataProvider["default"].buildQuery().addBody(userFields)
+            searchQuery: DataProvider.buildQuery().addBody(userFields)
           }))];
 
         case 13:
@@ -580,7 +548,7 @@ function updateMainUserInfo(action) {
           responseFields = _yield2[0];
           responseSettings = _yield2[1];
           _context6.next = 19;
-          return (0, _effects.put)(success({
+          return put(success({
             fields: responseFields.result,
             settings: responseSettings.result
           }, sQ));
@@ -594,7 +562,7 @@ function updateMainUserInfo(action) {
           _context6.prev = 22;
           _context6.t0 = _context6["catch"](8);
           _context6.next = 26;
-          return (0, _effects.put)(error(sQ.addReduxRequestParams({
+          return put(error(sQ.addReduxRequestParams({
             error: _context6.t0
           })));
 
@@ -620,15 +588,15 @@ function updatePushToken(action) {
       switch (_context7.prev = _context7.next) {
         case 0:
           payload = action.payload, type = action.type;
-          _RequestActionHelper$7 = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$7.request, success = _RequestActionHelper$7.success, error = _RequestActionHelper$7.error;
-          sQ = _DataProvider["default"].buildQuery();
+          _RequestActionHelper$7 = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$7.request, success = _RequestActionHelper$7.success, error = _RequestActionHelper$7.error;
+          sQ = DataProvider.buildQuery();
           _context7.prev = 3;
           _context7.next = 6;
-          return (0, _effects.put)(request(sQ));
+          return put(request(sQ));
 
         case 6:
           _context7.next = 8;
-          return (0, _api.getJwtAccessToken)();
+          return getJwtAccessToken();
 
         case 8:
           jwtTokenEncoded = _context7.sent;
@@ -641,7 +609,7 @@ function updatePushToken(action) {
           return _context7.abrupt("return");
 
         case 11:
-          jwtDecoded = (0, _jwtDecode["default"])(jwtTokenEncoded);
+          jwtDecoded = jwt_decode(jwtTokenEncoded);
           userAuthId = jwtDecoded && jwtDecoded.authId;
 
           if (userAuthId) {
@@ -656,12 +624,12 @@ function updatePushToken(action) {
             pushToken: payload
           });
           _context7.next = 18;
-          return (0, _effects.call)(_api2.CustomerAuthMethodApi.update, userAuthId, sQ);
+          return call(CustomerAuthMethodApi.update, userAuthId, sQ);
 
         case 18:
           response = _context7.sent;
           _context7.next = 21;
-          return (0, _effects.put)(success(response, sQ));
+          return put(success(response, sQ));
 
         case 21:
           sQ.runSuccessCallback(response);
@@ -672,7 +640,7 @@ function updatePushToken(action) {
           _context7.prev = 24;
           _context7.t0 = _context7["catch"](3);
           _context7.next = 28;
-          return (0, _effects.put)(error(sQ.addReduxRequestParams({
+          return put(error(sQ.addReduxRequestParams({
             error: _context7.t0
           })));
 
@@ -690,5 +658,4 @@ function updatePushToken(action) {
   }, _marked7, null, [[3, 24]]);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.USER_ACTION.USER, viewUser), (0, _effects.takeLatest)(_actionTypes.USER_ACTION.UPDATE_USER_FIELDS, updateUser), (0, _effects.takeLatest)(_actionTypes.USER_ACTION.USER_CITY, viewUserCity), (0, _effects.takeLatest)(_actionTypes.USER_ACTION.USER_SETTINGS, viewUserSettings), (0, _effects.takeLatest)(_actionTypes.USER_ACTION.UPDATE_USER_SETTINGS, updateUserSettings), (0, _effects.takeLatest)(_actionTypes.USER_ACTION.UPDATE_MAIN_USER_INFO, updateMainUserInfo), (0, _effects.throttle)(60000, _actionTypes.USER_ACTION.UPDATE_PUSH_TOKEN, updatePushToken)];
-exports["default"] = _default;
+export default [takeLatest(USER_ACTION.USER, viewUser), takeLatest(USER_ACTION.UPDATE_USER_FIELDS, updateUser), takeLatest(USER_ACTION.USER_CITY, viewUserCity), takeLatest(USER_ACTION.USER_SETTINGS, viewUserSettings), takeLatest(USER_ACTION.UPDATE_USER_SETTINGS, updateUserSettings), takeLatest(USER_ACTION.UPDATE_MAIN_USER_INFO, updateMainUserInfo), throttle(60000, USER_ACTION.UPDATE_PUSH_TOKEN, updatePushToken)];

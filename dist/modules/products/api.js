@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ProductsApi = void 0;
-
-var _api = require("../../api");
-
+import { callApi } from "../../api";
 /**
  * Create product
  *
@@ -16,11 +6,12 @@ var _api = require("../../api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/products', searchQuery);
+  return callApi('/v1/products', searchQuery);
 }
 /**
  * Get products list
@@ -32,7 +23,7 @@ function create(searchQuery) {
 
 
 function list(searchQuery) {
-  return (0, _api.callApi)("/v1/products", searchQuery);
+  return callApi("/v1/products", searchQuery);
 }
 /**
  * Update product
@@ -48,7 +39,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/products/".concat(id), searchQuery);
+  return callApi("/v1/products/".concat(id), searchQuery);
 }
 /**
  * Delete product
@@ -64,7 +55,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/products/".concat(id), searchQuery);
+  return callApi("/v1/products/".concat(id), searchQuery);
 }
 /**
  * Get product
@@ -77,7 +68,7 @@ function deleteModel(id, searchQuery) {
 
 
 function view(id, searchQuery) {
-  return (0, _api.callApi)("/v1/products/".concat(id), searchQuery);
+  return callApi("/v1/products/".concat(id), searchQuery);
 }
 /**
  * Get product by barcode
@@ -90,7 +81,7 @@ function view(id, searchQuery) {
 
 
 function viewBarcode(barcode, searchQuery) {
-  return (0, _api.callApi)("/v1/products/by-barcode/".concat(barcode), searchQuery);
+  return callApi("/v1/products/by-barcode/".concat(barcode), searchQuery);
 }
 /**
  * Add roduct to stock
@@ -105,7 +96,7 @@ function addToStock(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/products/add-to-stock', searchQuery);
+  return callApi('/v1/products/add-to-stock', searchQuery);
 }
 /**
  * Upload products attachments
@@ -120,10 +111,10 @@ function batchUpload(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/products/batch-upload-attachments', searchQuery);
+  return callApi('/v1/products/batch-upload-attachments', searchQuery);
 }
 
-var ProductsApi = {
+export var ProductsApi = {
   create: create,
   list: list,
   update: update,
@@ -133,4 +124,3 @@ var ProductsApi = {
   addToStock: addToStock,
   batchUpload: batchUpload
 };
-exports.ProductsApi = ProductsApi;

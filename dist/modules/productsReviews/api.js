@@ -1,18 +1,5 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ProductsReviewsApi = void 0;
-
-var _api = require("./api");
-
-var _SearchQuery = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/DataProvider/SearchQuery"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+import { callApi } from "./api";
+import SearchQuery from '@kakadu-dev/base-frontend-helpers/helpers/DataProvider/SearchQuery';
 /**
  * Get products reviews list
  *
@@ -20,8 +7,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/products-reviews', searchQuery);
+  return callApi('/v1/products-reviews', searchQuery);
 }
 /**
  * Add product review
@@ -36,7 +24,7 @@ function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/products-reviews', searchQuery);
+  return callApi('/v1/products-reviews', searchQuery);
 }
 /**
  * Update product review
@@ -52,7 +40,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/products-reviews/".concat(id), searchQuery);
+  return callApi("/v1/products-reviews/".concat(id), searchQuery);
 }
 /**
  * Get product review
@@ -65,13 +53,12 @@ function update(id, searchQuery) {
 
 
 function view(id, searchQuery) {
-  return (0, _api.callApi)("/v1/products-reviews/".concat(id), searchQuery);
+  return callApi("/v1/products-reviews/".concat(id), searchQuery);
 }
 
-var ProductsReviewsApi = {
+export var ProductsReviewsApi = {
   view: view,
   list: list,
   create: create,
   update: update
 };
-exports.ProductsReviewsApi = ProductsReviewsApi;

@@ -1,175 +1,127 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DispatchSelector = exports.StateSelector = void 0;
-
-var _auth = require("./auth");
-
-var _cart = require("./cart");
-
-var _categories = require("./categories");
-
-var _categoriesEntities = require("./categoriesEntities");
-
-var _categoriesRelations = require("./categoriesRelations");
-
-var _cities = require("./cities");
-
-var _companies = require("./companies");
-
-var _companiesInventory = require("./companiesInventory");
-
-var _companiesOffers = require("./companiesOffers");
-
-var _companiesSettings = require("./companiesSettings");
-
-var _countries = require("./countries");
-
-var _customers = require("./customers");
-
-var _customersAddresses = require("./customersAddresses");
-
-var _customersAuthMethods = require("./customersAuthMethods");
-
-var _customersCompares = require("./customersCompares");
-
-var _customersFavorites = require("./customersFavorites");
-
-var _customersNotifications = require("./customersNotifications");
-
-var _customersSettings = require("./customersSettings");
-
-var _faqCategories = require("./faqCategories");
-
-var _faqQuestions = require("./faqQuestions");
-
-var _logs = require("./logs");
-
-var _orders = require("./orders");
-
-var _payment = require("./payment");
-
-var _products = require("./products");
-
-var _productsAttachments = require("./productsAttachments");
-
-var _productsBarcodes = require("./productsBarcodes");
-
-var _productsBase = require("./productsBase");
-
-var _productsRelations = require("./productsRelations");
-
-var _productsReviews = require("./productsReviews");
-
-var _properties = require("./properties");
-
-var _propertiesEntities = require("./propertiesEntities");
-
-var _propertiesGroups = require("./propertiesGroups");
-
-var _propertiesTypes = require("./propertiesTypes");
-
-var _reports = require("./reports");
-
-var _settings = require("./settings");
-
-var _tagZone = require("./Store/tagZone");
-
-var _user = require("./user");
-
-var StateSelector = {
-  auth: _auth.AuthStateSelectors,
-  user: _user.UsersStateSelectors,
-  countries: _countries.CountriesStateSelectors,
-  products: _products.ProductsStateSelectors,
-  productsRelations: _productsRelations.ProductsRelationsStateSelectors,
-  productsAttachments: _productsAttachments.ProductsAttachmentsStateSelectors,
-  cities: _cities.CitiesStateSelectors,
-  categories: _categories.CategoriesStateSelectors,
-  categoriesRelations: _categoriesRelations.CategoriesRelationsStateSelectors,
-  categoriesEntities: _categoriesEntities.CategoriesEntitiesStateSelectors,
-  customers: _customers.CustomersStateSelectors,
-  customersSettings: _customersSettings.CustomersSettingsStateSelectors,
-  customersFavorites: _customersFavorites.CustomerFavoriteSelectors,
-  customersAddresses: _customersAddresses.CustomerAddressesSelectors,
-  customersCompares: _customersCompares.CustomerComparesSelectors,
-  customersNotifications: _customersNotifications.CustomerNotificationsSelectors,
-  customersAuthMethods: _customersAuthMethods.CustomerAuthMethodSelectors,
-  cart: _cart.CartStateSelectors,
-  productsBarcodes: _productsBarcodes.ProductsBarcodesStateSelectors,
-  productsReviews: _productsReviews.ProductsReviewsStateSelectors,
-  productsBase: _productsBase.ProductsBaseStateSelectors,
-  payment: _payment.PaymentStateSelectors,
-  orders: _orders.OrdersStateSelectors,
-  companies: _companies.CompaniesSelectors,
-  companiesSettings: _companiesSettings.CompaniesSettingsSelectors,
-  companiesOffers: _companiesOffers.CompaniesOffersSelectors,
-  companiesInventory: _companiesInventory.CompaniesInventorySelectors,
-  settings: _settings.SettingsStateSelectors,
-  logs: _logs.LogsStateSelectors,
-  reports: _reports.ReportsStateSelectors,
+import { AuthActions, AuthStateSelectors } from "./auth";
+import { CartActions, CartStateSelectors } from "./cart";
+import { CategoriesActions, CategoriesStateSelectors } from "./categories";
+import { CategoriesEntitiesActions, CategoriesEntitiesStateSelectors } from "./categoriesEntities";
+import { CategoriesRelationsActions, CategoriesRelationsStateSelectors } from "./categoriesRelations";
+import { CitiesActions, CitiesStateSelectors } from "./cities";
+import { CompaniesActions, CompaniesSelectors } from "./companies";
+import { CompaniesInventoryActions, CompaniesInventorySelectors } from "./companiesInventory";
+import { CompaniesOffersActions, CompaniesOffersSelectors } from "./companiesOffers";
+import { CompaniesSettingsActions, CompaniesSettingsSelectors } from "./companiesSettings";
+import { CountriesActions, CountriesStateSelectors } from "./countries";
+import { CustomerActions, CustomersStateSelectors } from "./customers";
+import { CustomerAddressesActions, CustomerAddressesSelectors } from "./customersAddresses";
+import { CustomerAuthMethodActions, CustomerAuthMethodSelectors } from "./customersAuthMethods";
+import { CustomerComparesActions, CustomerComparesSelectors } from "./customersCompares";
+import { CustomerFavoriteActions, CustomerFavoriteSelectors } from "./customersFavorites";
+import { CustomerNotificationsActions, CustomerNotificationsSelectors } from "./customersNotifications";
+import { CustomerSettingsActions, CustomersSettingsStateSelectors } from "./customersSettings";
+import { FaqCategoriesActions, FaqCategoriesStateSelectors } from "./faqCategories";
+import { FaqQuestionsActions, FaqQuestionsStateSelectors } from "./faqQuestions";
+import { LogsActions, LogsStateSelectors } from "./logs";
+import { OrdersActions, OrdersStateSelectors } from "./orders";
+import { PaymentActions, PaymentStateSelectors } from "./payment";
+import { ProductsActions, ProductsStateSelectors } from "./products";
+import { ProductsAttachmentsActions, ProductsAttachmentsStateSelectors } from "./productsAttachments";
+import { ProductsBarcodesActions, ProductsBarcodesStateSelectors } from "./productsBarcodes";
+import { ProductsBaseActions, ProductsBaseStateSelectors } from "./productsBase";
+import { ProductsRelationsActions, ProductsRelationsStateSelectors } from "./productsRelations";
+import { ProductsReviewsActions, ProductsReviewsStateSelectors } from "./productsReviews";
+import { PropertiesActions, PropertiesStateSelectors } from "./properties";
+import { PropertiesEntitiesActions, PropertiesEntitiesStateSelectors } from "./propertiesEntities";
+import { PropertiesGroupsActions, PropertiesGroupsStateSelectors } from "./propertiesGroups";
+import { PropertiesTypesActions, PropertiesTypesStateSelectors } from "./propertiesTypes";
+import { ReportsActions, ReportsStateSelectors } from "./reports";
+import { SettingsActions, SettingsStateSelectors } from "./settings";
+import { TagZoneActions, TagZoneSelectors } from "./Store/tagZone";
+import { UsersActions, UsersStateSelectors } from "./user";
+export var StateSelector = {
+  auth: AuthStateSelectors,
+  user: UsersStateSelectors,
+  countries: CountriesStateSelectors,
+  products: ProductsStateSelectors,
+  productsRelations: ProductsRelationsStateSelectors,
+  productsAttachments: ProductsAttachmentsStateSelectors,
+  cities: CitiesStateSelectors,
+  categories: CategoriesStateSelectors,
+  categoriesRelations: CategoriesRelationsStateSelectors,
+  categoriesEntities: CategoriesEntitiesStateSelectors,
+  customers: CustomersStateSelectors,
+  customersSettings: CustomersSettingsStateSelectors,
+  customersFavorites: CustomerFavoriteSelectors,
+  customersAddresses: CustomerAddressesSelectors,
+  customersCompares: CustomerComparesSelectors,
+  customersNotifications: CustomerNotificationsSelectors,
+  customersAuthMethods: CustomerAuthMethodSelectors,
+  cart: CartStateSelectors,
+  productsBarcodes: ProductsBarcodesStateSelectors,
+  productsReviews: ProductsReviewsStateSelectors,
+  productsBase: ProductsBaseStateSelectors,
+  payment: PaymentStateSelectors,
+  orders: OrdersStateSelectors,
+  companies: CompaniesSelectors,
+  companiesSettings: CompaniesSettingsSelectors,
+  companiesOffers: CompaniesOffersSelectors,
+  companiesInventory: CompaniesInventorySelectors,
+  settings: SettingsStateSelectors,
+  logs: LogsStateSelectors,
+  reports: ReportsStateSelectors,
   properties: {
-    properties: _properties.PropertiesStateSelectors,
-    propertiesTypes: _propertiesTypes.PropertiesTypesStateSelectors,
-    propertiesGroups: _propertiesGroups.PropertiesGroupsStateSelectors,
-    propertiesEntities: _propertiesEntities.PropertiesEntitiesStateSelectors
+    properties: PropertiesStateSelectors,
+    propertiesTypes: PropertiesTypesStateSelectors,
+    propertiesGroups: PropertiesGroupsStateSelectors,
+    propertiesEntities: PropertiesEntitiesStateSelectors
   },
   faq: {
-    categories: _faqCategories.FaqCategoriesStateSelectors,
-    questions: _faqQuestions.FaqQuestionsStateSelectors
+    categories: FaqCategoriesStateSelectors,
+    questions: FaqQuestionsStateSelectors
   },
   modules: {
-    tagZone: _tagZone.TagZoneSelectors
+    tagZone: TagZoneSelectors
   }
 };
-exports.StateSelector = StateSelector;
-var DispatchSelector = {
-  auth: _auth.AuthActions,
-  user: _user.UsersActions,
-  countries: _countries.CountriesActions,
-  products: _products.ProductsActions,
-  productsRelations: _productsRelations.ProductsRelationsActions,
-  productsAttachments: _productsAttachments.ProductsAttachmentsActions,
-  cities: _cities.CitiesActions,
-  categories: _categories.CategoriesActions,
-  categoriesRelations: _categoriesRelations.CategoriesRelationsActions,
-  categoriesEntities: _categoriesEntities.CategoriesEntitiesActions,
-  customers: _customers.CustomerActions,
-  customersSettings: _customersSettings.CustomerSettingsActions,
-  customersFavorites: _customersFavorites.CustomerFavoriteActions,
-  customersAddresses: _customersAddresses.CustomerAddressesActions,
-  customersCompares: _customersCompares.CustomerComparesActions,
-  customersNotifications: _customersNotifications.CustomerNotificationsActions,
-  customersAuthMethods: _customersAuthMethods.CustomerAuthMethodActions,
-  cart: _cart.CartActions,
-  productsBarcodes: _productsBarcodes.ProductsBarcodesActions,
-  productsReviews: _productsReviews.ProductsReviewsActions,
-  productsBase: _productsBase.ProductsBaseActions,
-  payment: _payment.PaymentActions,
-  orders: _orders.OrdersActions,
-  companies: _companies.CompaniesActions,
-  companiesSettings: _companiesSettings.CompaniesSettingsActions,
-  companiesOffers: _companiesOffers.CompaniesOffersActions,
-  companiesInventory: _companiesInventory.CompaniesInventoryActions,
-  settings: _settings.SettingsActions,
-  logs: _logs.LogsActions,
-  reports: _reports.ReportsActions,
+export var DispatchSelector = {
+  auth: AuthActions,
+  user: UsersActions,
+  countries: CountriesActions,
+  products: ProductsActions,
+  productsRelations: ProductsRelationsActions,
+  productsAttachments: ProductsAttachmentsActions,
+  cities: CitiesActions,
+  categories: CategoriesActions,
+  categoriesRelations: CategoriesRelationsActions,
+  categoriesEntities: CategoriesEntitiesActions,
+  customers: CustomerActions,
+  customersSettings: CustomerSettingsActions,
+  customersFavorites: CustomerFavoriteActions,
+  customersAddresses: CustomerAddressesActions,
+  customersCompares: CustomerComparesActions,
+  customersNotifications: CustomerNotificationsActions,
+  customersAuthMethods: CustomerAuthMethodActions,
+  cart: CartActions,
+  productsBarcodes: ProductsBarcodesActions,
+  productsReviews: ProductsReviewsActions,
+  productsBase: ProductsBaseActions,
+  payment: PaymentActions,
+  orders: OrdersActions,
+  companies: CompaniesActions,
+  companiesSettings: CompaniesSettingsActions,
+  companiesOffers: CompaniesOffersActions,
+  companiesInventory: CompaniesInventoryActions,
+  settings: SettingsActions,
+  logs: LogsActions,
+  reports: ReportsActions,
   properties: {
-    properties: _properties.PropertiesActions,
-    propertiesTypes: _propertiesTypes.PropertiesTypesActions,
-    propertiesGroups: _propertiesGroups.PropertiesGroupsActions,
-    propertiesEntities: _propertiesEntities.PropertiesEntitiesActions
+    properties: PropertiesActions,
+    propertiesTypes: PropertiesTypesActions,
+    propertiesGroups: PropertiesGroupsActions,
+    propertiesEntities: PropertiesEntitiesActions
   },
   faq: {
-    categories: _faqCategories.FaqCategoriesActions,
-    questions: _faqQuestions.FaqQuestionsActions
+    categories: FaqCategoriesActions,
+    questions: FaqQuestionsActions
   },
   modules: {
-    tagZone: _tagZone.TagZoneActions
+    tagZone: TagZoneActions
   }
 };
-exports.DispatchSelector = DispatchSelector;

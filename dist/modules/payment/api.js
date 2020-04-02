@@ -1,16 +1,5 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PaymentApi = void 0;
-
-var _api = require("./api");
-
-var _config = require("config");
-
+import { callApi } from "./api";
+import { API_PAYMENT } from 'config';
 /**
  * List payment cards
  *
@@ -18,11 +7,12 @@ var _config = require("config");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
   searchQuery.addCustomParams({
     externalRequest: true
   }, true);
-  return (0, _api.callApi)("".concat(_config.API_PAYMENT, "/v1/payment-method/list"), searchQuery);
+  return callApi("".concat(API_PAYMENT, "/v1/payment-method/list"), searchQuery);
 }
 /**
  * Create payment card
@@ -39,7 +29,7 @@ function create(searchQuery) {
   }, true).addCustomParams({
     externalRequest: true
   }, true);
-  return (0, _api.callApi)("".concat(_config.API_PAYMENT, "/v1/payment-method/save"), searchQuery);
+  return callApi("".concat(API_PAYMENT, "/v1/payment-method/save"), searchQuery);
 }
 /**
  * Send post data after 3D secure done
@@ -56,7 +46,7 @@ function postSecure(searchQuery) {
   }, true).addCustomParams({
     externalRequest: true
   }, true);
-  return (0, _api.callApi)("".concat(_config.API_PAYMENT, "/v1/payment-method/post-secure"), searchQuery);
+  return callApi("".concat(API_PAYMENT, "/v1/payment-method/post-secure"), searchQuery);
 }
 /**
  * Create payment card with redirect
@@ -73,7 +63,7 @@ function createWithRedirect(searchQuery) {
   }, true).addCustomParams({
     externalRequest: true
   }, true);
-  return (0, _api.callApi)("".concat(_config.API_PAYMENT, "/v1/payment-method/add"), searchQuery);
+  return callApi("".concat(API_PAYMENT, "/v1/payment-method/add"), searchQuery);
 }
 /**
  * Set primary payment card
@@ -90,7 +80,7 @@ function setMain(searchQuery) {
   }, true).addCustomParams({
     externalRequest: true
   }, true);
-  return (0, _api.callApi)("".concat(_config.API_PAYMENT, "/v1/payment-method/set-main"), searchQuery);
+  return callApi("".concat(API_PAYMENT, "/v1/payment-method/set-main"), searchQuery);
 }
 /**
  * Delete payment card
@@ -108,10 +98,10 @@ function deleteCard(id, searchQuery) {
   }, true).addCustomParams({
     externalRequest: true
   }, true);
-  return (0, _api.callApi)("".concat(_config.API_PAYMENT, "/v1/payment-method/remove/").concat(id), searchQuery);
+  return callApi("".concat(API_PAYMENT, "/v1/payment-method/remove/").concat(id), searchQuery);
 }
 
-var PaymentApi = {
+export var PaymentApi = {
   list: list,
   create: create,
   postSecure: postSecure,
@@ -119,4 +109,3 @@ var PaymentApi = {
   setMain: setMain,
   "delete": deleteCard
 };
-exports.PaymentApi = PaymentApi;

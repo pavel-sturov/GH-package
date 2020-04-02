@@ -1,27 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionCreators = require("./actionCreators");
-
-var _actionSelectors = require("./actionSelectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(view),
@@ -33,6 +10,12 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked8 = /*#__PURE__*/regeneratorRuntime.mark(setDefective),
     _marked9 = /*#__PURE__*/regeneratorRuntime.mark(transfer);
 
+import { takeEvery, takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { ProductsBaseActions } from "./actionCreators";
+import { ProductsBaseStateSelectors } from "./actionSelectors";
+import { PRODUCTS_BASE_ACTIONS } from "./actionTypes";
+import { ProductsBaseApi } from "./api";
 /**
  * Get products base list
  *
@@ -40,13 +23,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{productBase, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.ProductsBaseApi.list);
+          return SagasHelper.defaultList(action, ProductsBaseApi.list);
 
         case 2:
         case "end":
@@ -70,7 +54,7 @@ function view(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.ProductsBaseApi.view);
+          return SagasHelper.defaultView(action, ProductsBaseApi.view);
 
         case 2:
         case "end":
@@ -94,7 +78,7 @@ function printEpc(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.ProductsBaseApi.printEpc);
+          return SagasHelper.defaultView(action, ProductsBaseApi.printEpc);
 
         case 2:
         case "end":
@@ -118,7 +102,7 @@ function differenceZoneTags(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.ProductsBaseApi.differenceZoneTags);
+          return SagasHelper.defaultList(action, ProductsBaseApi.differenceZoneTags);
 
         case 2:
         case "end":
@@ -142,7 +126,7 @@ function updateAll(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.ProductsBaseApi.updateAll);
+          return SagasHelper.defaultList(action, ProductsBaseApi.updateAll);
 
         case 2:
         case "end":
@@ -166,7 +150,7 @@ function update(action) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.ProductsBaseApi.update);
+          return SagasHelper.defaultUpdate(action, ProductsBaseApi.update);
 
         case 2:
         case "end":
@@ -190,7 +174,7 @@ function deleteModel(action) {
       switch (_context8.prev = _context8.next) {
         case 0:
           _context8.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.ProductsBaseApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return SagasHelper.defaultDelete(action, ProductsBaseApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var _len,
                 params,
                 _key,
@@ -205,7 +189,7 @@ function deleteModel(action) {
                     }
 
                     _context7.next = 3;
-                    return _SagasHelper["default"].afterDeleteModelFromList.apply(_SagasHelper["default"], params.concat([_actionSelectors.ProductsBaseStateSelectors.list, _actionCreators.ProductsBaseActions.setList]));
+                    return SagasHelper.afterDeleteModelFromList.apply(SagasHelper, params.concat([ProductsBaseStateSelectors.list, ProductsBaseActions.setList]));
 
                   case 3:
                   case "end":
@@ -237,7 +221,7 @@ function setDefective(action) {
       switch (_context9.prev = _context9.next) {
         case 0:
           _context9.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.ProductsBaseApi.setDefective);
+          return SagasHelper.defaultView(action, ProductsBaseApi.setDefective);
 
         case 2:
         case "end":
@@ -261,7 +245,7 @@ function transfer(action) {
       switch (_context10.prev = _context10.next) {
         case 0:
           _context10.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.ProductsBaseApi.transfer);
+          return SagasHelper.defaultView(action, ProductsBaseApi.transfer);
 
         case 2:
         case "end":
@@ -271,5 +255,4 @@ function transfer(action) {
   }, _marked9);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.PRODUCTS_BASE_ACTIONS.VIEW, view), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_BASE_ACTIONS.LIST, list), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_BASE_ACTIONS.PRINT_EPC, printEpc), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_BASE_ACTIONS.DIFFERENCE_ZONE_TAGS, differenceZoneTags), (0, _effects.takeEvery)(_actionTypes.PRODUCTS_BASE_ACTIONS.UPDATE_ALL, updateAll), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_BASE_ACTIONS.UPDATE, update), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_BASE_ACTIONS.DELETE_EPC, deleteModel), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_BASE_ACTIONS.SET_DEFECTIVE, setDefective), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_BASE_ACTIONS.TRANSFER, transfer)];
-exports["default"] = _default;
+export default [takeLatest(PRODUCTS_BASE_ACTIONS.VIEW, view), takeLatest(PRODUCTS_BASE_ACTIONS.LIST, list), takeLatest(PRODUCTS_BASE_ACTIONS.PRINT_EPC, printEpc), takeLatest(PRODUCTS_BASE_ACTIONS.DIFFERENCE_ZONE_TAGS, differenceZoneTags), takeEvery(PRODUCTS_BASE_ACTIONS.UPDATE_ALL, updateAll), takeLatest(PRODUCTS_BASE_ACTIONS.UPDATE, update), takeLatest(PRODUCTS_BASE_ACTIONS.DELETE_EPC, deleteModel), takeLatest(PRODUCTS_BASE_ACTIONS.SET_DEFECTIVE, setDefective), takeLatest(PRODUCTS_BASE_ACTIONS.TRANSFER, transfer)];

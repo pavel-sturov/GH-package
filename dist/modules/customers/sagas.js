@@ -1,23 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _effects = require("redux-saga/effects");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(view),
@@ -26,6 +7,10 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
     _marked5 = /*#__PURE__*/regeneratorRuntime.mark(deleteModel),
     _marked6 = /*#__PURE__*/regeneratorRuntime.mark(sendPush);
 
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { takeLatest } from 'redux-saga/effects';
+import { CUSTOMER_ACTIONS } from "./actionTypes";
+import { CustomersApi } from "./api";
 /**
  * Create customer
  *
@@ -33,13 +18,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{customers, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function create(action) {
   return regeneratorRuntime.wrap(function create$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.CustomersApi.create);
+          return SagasHelper.defaultCreate(action, CustomersApi.create);
 
         case 2:
         case "end":
@@ -63,7 +49,7 @@ function view(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.CustomersApi.view);
+          return SagasHelper.defaultView(action, CustomersApi.view);
 
         case 2:
         case "end":
@@ -87,7 +73,7 @@ function list(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.CustomersApi.list);
+          return SagasHelper.defaultList(action, CustomersApi.list);
 
         case 2:
         case "end":
@@ -111,7 +97,7 @@ function update(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.CustomersApi.update);
+          return SagasHelper.defaultUpdate(action, CustomersApi.update);
 
         case 2:
         case "end":
@@ -135,7 +121,7 @@ function deleteModel(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.CustomersApi["delete"]);
+          return SagasHelper.defaultDelete(action, CustomersApi["delete"]);
 
         case 2:
         case "end":
@@ -159,7 +145,7 @@ function sendPush(action) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.CustomersApi.sendPush);
+          return SagasHelper.defaultCreate(action, CustomersApi.sendPush);
 
         case 2:
         case "end":
@@ -169,5 +155,4 @@ function sendPush(action) {
   }, _marked6);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.CUSTOMER_ACTIONS.CREATE, create), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ACTIONS.VIEW, view), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ACTIONS.LIST, list), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ACTIONS.UPDATE, update), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ACTIONS.DELETE, deleteModel), (0, _effects.takeLatest)(_actionTypes.CUSTOMER_ACTIONS.SEND_PUSH, sendPush)];
-exports["default"] = _default;
+export default [takeLatest(CUSTOMER_ACTIONS.CREATE, create), takeLatest(CUSTOMER_ACTIONS.VIEW, view), takeLatest(CUSTOMER_ACTIONS.LIST, list), takeLatest(CUSTOMER_ACTIONS.UPDATE, update), takeLatest(CUSTOMER_ACTIONS.DELETE, deleteModel), takeLatest(CUSTOMER_ACTIONS.SEND_PUSH, sendPush)];

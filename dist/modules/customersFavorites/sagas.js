@@ -1,31 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _SagasHelper2 = require("helpers/Redux/SagasHelper");
-
-var _CustomerFavorite = require("models/Customers/CustomerFavorite");
-
-var _actionCreators = require("./actionCreators");
-
-var _actionSelectors = require("./actionSelectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(create),
@@ -33,6 +6,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(deleteModel),
     _marked5 = /*#__PURE__*/regeneratorRuntime.mark(deleteAll);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { beforeAddCustomerId } from 'helpers/Redux/SagasHelper';
+import { CustomerFavorite } from 'models/Customers/CustomerFavorite';
+import { CustomerFavoriteActions } from "./actionCreators";
+import { CustomerFavoriteSelectors } from "./actionSelectors";
+import { FAVORITE_ACTION } from "./actionTypes";
+import { CustomerFavoriteApi } from "./api";
 /**
  * Get customer favorites
  *
@@ -40,13 +21,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{user, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.CustomerFavoriteApi.list);
+          return SagasHelper.defaultList(action, CustomerFavoriteApi.list);
 
         case 2:
         case "end":
@@ -70,7 +52,7 @@ function create(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.CustomerFavoriteApi.create, _SagasHelper2.beforeAddCustomerId);
+          return SagasHelper.defaultCreate(action, CustomerFavoriteApi.create, beforeAddCustomerId);
 
         case 2:
         case "end":
@@ -94,7 +76,7 @@ function view(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.CustomerFavoriteApi.view);
+          return SagasHelper.defaultView(action, CustomerFavoriteApi.view);
 
         case 2:
         case "end":
@@ -118,7 +100,7 @@ function deleteModel(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.CustomerFavoriteApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return SagasHelper.defaultDelete(action, CustomerFavoriteApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var _len,
                 params,
                 _key,
@@ -133,7 +115,7 @@ function deleteModel(action) {
                     }
 
                     _context4.next = 3;
-                    return _SagasHelper["default"].afterDeleteModelFromList.apply(_SagasHelper["default"], params.concat([_actionSelectors.CustomerFavoriteSelectors.list, _actionCreators.CustomerFavoriteActions.setList, _CustomerFavorite.CustomerFavorite]));
+                    return SagasHelper.afterDeleteModelFromList.apply(SagasHelper, params.concat([CustomerFavoriteSelectors.list, CustomerFavoriteActions.setList, CustomerFavorite]));
 
                   case 3:
                   case "end":
@@ -165,7 +147,7 @@ function deleteAll(action) {
       switch (_context7.prev = _context7.next) {
         case 0:
           _context7.next = 2;
-          return _SagasHelper["default"].defaultDeleteAll(action, _api.CustomerFavoriteApi.deleteAll, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+          return SagasHelper.defaultDeleteAll(action, CustomerFavoriteApi.deleteAll, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
             var _len2,
                 params,
                 _key2,
@@ -180,7 +162,7 @@ function deleteAll(action) {
                     }
 
                     _context6.next = 3;
-                    return _SagasHelper["default"].afterClearState.apply(_SagasHelper["default"], params.concat([_actionCreators.CustomerFavoriteActions.list]));
+                    return SagasHelper.afterClearState.apply(SagasHelper, params.concat([CustomerFavoriteActions.list]));
 
                   case 3:
                   case "end":
@@ -198,5 +180,4 @@ function deleteAll(action) {
   }, _marked5);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.FAVORITE_ACTION.LIST, list), (0, _effects.takeLatest)(_actionTypes.FAVORITE_ACTION.CREATE, create), (0, _effects.takeLatest)(_actionTypes.FAVORITE_ACTION.VIEW, view), (0, _effects.takeLatest)(_actionTypes.FAVORITE_ACTION.DELETE, deleteModel), (0, _effects.takeLatest)(_actionTypes.FAVORITE_ACTION.DELETE_ALL, deleteAll)];
-exports["default"] = _default;
+export default [takeLatest(FAVORITE_ACTION.LIST, list), takeLatest(FAVORITE_ACTION.CREATE, create), takeLatest(FAVORITE_ACTION.VIEW, view), takeLatest(FAVORITE_ACTION.DELETE, deleteModel), takeLatest(FAVORITE_ACTION.DELETE_ALL, deleteAll)];

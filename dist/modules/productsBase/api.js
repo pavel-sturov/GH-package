@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ProductsBaseApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Get products base list
  *
@@ -16,8 +6,9 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
-  return (0, _api.callApi)("/v1/products-base", searchQuery);
+  return callApi("/v1/products-base", searchQuery);
 }
 /**
  * Get product base
@@ -30,7 +21,7 @@ function list(searchQuery) {
 
 
 function view(id, searchQuery) {
-  return (0, _api.callApi)("/v1/products-base/".concat(id), searchQuery);
+  return callApi("/v1/products-base/".concat(id), searchQuery);
 }
 /**
  * Print product base epc tag
@@ -46,7 +37,7 @@ function printEpc(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)("/v1/products-base/print-epc-tag/".concat(id), searchQuery);
+  return callApi("/v1/products-base/print-epc-tag/".concat(id), searchQuery);
 }
 /**
  * Get products base difference zone tags
@@ -58,7 +49,7 @@ function printEpc(id, searchQuery) {
 
 
 function differenceZoneTags(searchQuery) {
-  return (0, _api.callApi)("/v1/products-base/zone-tags-differences", searchQuery);
+  return callApi("/v1/products-base/zone-tags-differences", searchQuery);
 }
 /**
  * Update all product base
@@ -73,7 +64,7 @@ function updateAll(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)('/v1/products-base', searchQuery);
+  return callApi('/v1/products-base', searchQuery);
 }
 /**
  * Update product base
@@ -89,7 +80,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/products-base/".concat(id), searchQuery);
+  return callApi("/v1/products-base/".concat(id), searchQuery);
 }
 /**
  * Delete product base
@@ -105,7 +96,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/products-base/".concat(id), searchQuery);
+  return callApi("/v1/products-base/".concat(id), searchQuery);
 }
 /**
  * Move product base to defective
@@ -121,7 +112,7 @@ function setDefective(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)("/v1/products-base/to-defective/".concat(id), searchQuery);
+  return callApi("/v1/products-base/to-defective/".concat(id), searchQuery);
 }
 /**
  * Transfer product base
@@ -137,10 +128,10 @@ function transfer(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)("/v1/products-base/transfer/".concat(id), searchQuery);
+  return callApi("/v1/products-base/transfer/".concat(id), searchQuery);
 }
 
-var ProductsBaseApi = {
+export var ProductsBaseApi = {
   view: view,
   list: list,
   update: update,
@@ -151,4 +142,3 @@ var ProductsBaseApi = {
   setDefective: setDefective,
   transfer: transfer
 };
-exports.ProductsBaseApi = ProductsBaseApi;

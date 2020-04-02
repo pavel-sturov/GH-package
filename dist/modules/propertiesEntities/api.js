@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PropertiesEntitiesApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Get properties entities list
  *
@@ -16,8 +6,9 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/properties-entities', searchQuery);
+  return callApi('/v1/properties-entities', searchQuery);
 }
 /**
  * Add property entity
@@ -32,7 +23,7 @@ function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/properties-entities', searchQuery);
+  return callApi('/v1/properties-entities', searchQuery);
 }
 /**
  * Update property entity
@@ -48,7 +39,7 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/properties-entities/".concat(id), searchQuery);
+  return callApi("/v1/properties-entities/".concat(id), searchQuery);
 }
 /**
  * Get property entity
@@ -61,7 +52,7 @@ function update(id, searchQuery) {
 
 
 function view(id, searchQuery) {
-  return (0, _api.callApi)("/v1/properties-entities/".concat(id), searchQuery);
+  return callApi("/v1/properties-entities/".concat(id), searchQuery);
 }
 /**
  * Delete property entity
@@ -77,14 +68,13 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/properties-entities/".concat(id), searchQuery);
+  return callApi("/v1/properties-entities/".concat(id), searchQuery);
 }
 
-var PropertiesEntitiesApi = {
+export var PropertiesEntitiesApi = {
   view: view,
   list: list,
   create: create,
   update: update,
   "delete": deleteModel
 };
-exports.PropertiesEntitiesApi = PropertiesEntitiesApi;

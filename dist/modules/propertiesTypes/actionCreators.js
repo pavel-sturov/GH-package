@@ -1,23 +1,9 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PropertiesTypesActions = void 0;
-
-var _RequestActionHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper"));
-
-var _actionTypes = require("./actionTypes");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var PropertiesTypesActions = {
-  view: _RequestActionHelper["default"].getActionCreatorFetch(_actionTypes.PROPERTIES_TYPES_ACTIONS.VIEW),
-  list: _RequestActionHelper["default"].getActionCreatorFetch(_actionTypes.PROPERTIES_TYPES_ACTIONS.LIST),
-  create: _RequestActionHelper["default"].getActionCreatorFetch(_actionTypes.PROPERTIES_TYPES_ACTIONS.CREATE),
-  update: _RequestActionHelper["default"].getActionCreatorFetch(_actionTypes.PROPERTIES_TYPES_ACTIONS.UPDATE),
-  "delete": _RequestActionHelper["default"].getActionCreatorFetch(_actionTypes.PROPERTIES_TYPES_ACTIONS.DELETE)
+import RequestActionHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper';
+import { PROPERTIES_TYPES_ACTIONS } from "./actionTypes";
+export var PropertiesTypesActions = {
+  view: RequestActionHelper.getActionCreatorFetch(PROPERTIES_TYPES_ACTIONS.VIEW),
+  list: RequestActionHelper.getActionCreatorFetch(PROPERTIES_TYPES_ACTIONS.LIST),
+  create: RequestActionHelper.getActionCreatorFetch(PROPERTIES_TYPES_ACTIONS.CREATE),
+  update: RequestActionHelper.getActionCreatorFetch(PROPERTIES_TYPES_ACTIONS.UPDATE),
+  "delete": RequestActionHelper.getActionCreatorFetch(PROPERTIES_TYPES_ACTIONS.DELETE)
 };
-exports.PropertiesTypesActions = PropertiesTypesActions;

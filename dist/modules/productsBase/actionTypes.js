@@ -1,12 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PRODUCTS_BASE_ACTIONS = void 0;
-var PRODUCTS_BASE_ACTIONS = {
+export var PRODUCTS_BASE_ACTIONS = {
   VIEW: 'PRODUCTS_BASE_VIEW',
   LIST: 'PRODUCTS_BASE_LIST',
   PRINT_EPC: 'PRODUCTS_BASE_PRINT_EPC',
@@ -17,4 +9,3 @@ var PRODUCTS_BASE_ACTIONS = {
   SET_DEFECTIVE: 'PRODUCTS_BASE_SET_DEFECTIVE',
   TRANSFER: 'PRODUCTS_BASE_TRANSFER'
 };
-exports.PRODUCTS_BASE_ACTIONS = PRODUCTS_BASE_ACTIONS;

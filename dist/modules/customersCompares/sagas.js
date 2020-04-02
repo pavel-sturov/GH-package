@@ -1,31 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _SagasHelper2 = require("helpers/Redux/SagasHelper");
-
-var _Customers = require("models/Customers");
-
-var _actionCreators = require("./actionCreators");
-
-var _actionSelectors = require("./actionSelectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(create),
@@ -35,6 +8,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked6 = /*#__PURE__*/regeneratorRuntime.mark(hiearchical),
     _marked7 = /*#__PURE__*/regeneratorRuntime.mark(products);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { beforeAddCustomerId } from 'helpers/Redux/SagasHelper';
+import { CustomerCompare } from 'models/Customers';
+import { CustomerComparesActions } from "./actionCreators";
+import { CustomerComparesSelectors } from "./actionSelectors";
+import { COMPARES_ACTION } from "./actionTypes";
+import { CustomerCompareApi } from "./api";
 /**
  * Get customer favorites
  *
@@ -42,13 +23,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{user, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.CustomerCompareApi.list);
+          return SagasHelper.defaultList(action, CustomerCompareApi.list);
 
         case 2:
         case "end":
@@ -72,7 +54,7 @@ function create(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.CustomerCompareApi.create, _SagasHelper2.beforeAddCustomerId);
+          return SagasHelper.defaultCreate(action, CustomerCompareApi.create, beforeAddCustomerId);
 
         case 2:
         case "end":
@@ -96,7 +78,7 @@ function view(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.CustomerCompareApi.view);
+          return SagasHelper.defaultView(action, CustomerCompareApi.view);
 
         case 2:
         case "end":
@@ -120,7 +102,7 @@ function deleteModel(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.CustomerCompareApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return SagasHelper.defaultDelete(action, CustomerCompareApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var _len,
                 params,
                 _key,
@@ -135,7 +117,7 @@ function deleteModel(action) {
                     }
 
                     _context4.next = 3;
-                    return _SagasHelper["default"].afterDeleteModelFromList.apply(_SagasHelper["default"], params.concat([_actionSelectors.CustomerComparesSelectors.list, _actionCreators.CustomerComparesActions.setList, _Customers.CustomerCompare]));
+                    return SagasHelper.afterDeleteModelFromList.apply(SagasHelper, params.concat([CustomerComparesSelectors.list, CustomerComparesActions.setList, CustomerCompare]));
 
                   case 3:
                   case "end":
@@ -167,7 +149,7 @@ function deleteAll(action) {
       switch (_context7.prev = _context7.next) {
         case 0:
           _context7.next = 2;
-          return _SagasHelper["default"].defaultDeleteAll(action, _api.CustomerCompareApi.deleteAll, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+          return SagasHelper.defaultDeleteAll(action, CustomerCompareApi.deleteAll, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
             var _len2,
                 params,
                 _key2,
@@ -182,7 +164,7 @@ function deleteAll(action) {
                     }
 
                     _context6.next = 3;
-                    return _SagasHelper["default"].afterClearState.apply(_SagasHelper["default"], params.concat([_actionCreators.CustomerComparesActions.list]));
+                    return SagasHelper.afterClearState.apply(SagasHelper, params.concat([CustomerComparesActions.list]));
 
                   case 3:
                   case "end":
@@ -214,7 +196,7 @@ function hiearchical(action) {
       switch (_context8.prev = _context8.next) {
         case 0:
           _context8.next = 2;
-          return _SagasHelper["default"].defaultCustom(action, _api.CustomerCompareApi.hierarchical);
+          return SagasHelper.defaultCustom(action, CustomerCompareApi.hierarchical);
 
         case 2:
         case "end":
@@ -238,7 +220,7 @@ function products(action) {
       switch (_context9.prev = _context9.next) {
         case 0:
           _context9.next = 2;
-          return _SagasHelper["default"].defaultCustom(action, _api.CustomerCompareApi.products);
+          return SagasHelper.defaultCustom(action, CustomerCompareApi.products);
 
         case 2:
         case "end":
@@ -248,5 +230,4 @@ function products(action) {
   }, _marked7);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.COMPARES_ACTION.LIST, list), (0, _effects.takeLatest)(_actionTypes.COMPARES_ACTION.CREATE, create), (0, _effects.takeLatest)(_actionTypes.COMPARES_ACTION.VIEW, view), (0, _effects.takeLatest)(_actionTypes.COMPARES_ACTION.DELETE, deleteModel), (0, _effects.takeLatest)(_actionTypes.COMPARES_ACTION.DELETE_ALL, deleteAll), (0, _effects.takeLatest)(_actionTypes.COMPARES_ACTION.HIERARCHICAL, hiearchical), (0, _effects.takeLatest)(_actionTypes.COMPARES_ACTION.PRODUCTS, products)];
-exports["default"] = _default;
+export default [takeLatest(COMPARES_ACTION.LIST, list), takeLatest(COMPARES_ACTION.CREATE, create), takeLatest(COMPARES_ACTION.VIEW, view), takeLatest(COMPARES_ACTION.DELETE, deleteModel), takeLatest(COMPARES_ACTION.DELETE_ALL, deleteAll), takeLatest(COMPARES_ACTION.HIERARCHICAL, hiearchical), takeLatest(COMPARES_ACTION.PRODUCTS, products)];

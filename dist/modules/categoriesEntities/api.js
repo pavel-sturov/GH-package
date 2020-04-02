@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CategoriesEntitiesApi = void 0;
-
-var _api = require("../../api");
-
+import { callApi } from "../../api";
 /**
  * Get categories entities list
  *
@@ -16,8 +6,9 @@ var _api = require("../../api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function list(searchQuery) {
-  return (0, _api.callApi)('/v1/categories-entities', searchQuery);
+  return callApi('/v1/categories-entities', searchQuery);
 }
 /**
  * Add category entity
@@ -32,7 +23,7 @@ function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/categories-entities', searchQuery);
+  return callApi('/v1/categories-entities', searchQuery);
 }
 /**
  * Delete category entity
@@ -48,12 +39,11 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/categories-entities/".concat(id), searchQuery);
+  return callApi("/v1/categories-entities/".concat(id), searchQuery);
 }
 
-var CategoriesEntitiesApi = {
+export var CategoriesEntitiesApi = {
   list: list,
   create: create,
   "delete": deleteModel
 };
-exports.CategoriesEntitiesApi = CategoriesEntitiesApi;

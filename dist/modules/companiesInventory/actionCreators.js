@@ -1,22 +1,8 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CompaniesInventoryActions = void 0;
-
-var _RequestActionHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper"));
-
-var _actionTypes = require("./actionTypes");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var CompaniesInventoryActions = {
-  view: _RequestActionHelper["default"].getActionCreatorFetch(_actionTypes.COMPANIES_INVENTORY_ACTION.VIEW),
-  setInventory: _RequestActionHelper["default"].getActionCreatorSuccess(_actionTypes.COMPANIES_INVENTORY_ACTION.VIEW),
-  products: _RequestActionHelper["default"].getActionCreatorFetch(_actionTypes.COMPANIES_INVENTORY_ACTION.PRODUCTS),
-  setProducts: _RequestActionHelper["default"].getActionCreatorSuccess(_actionTypes.COMPANIES_INVENTORY_ACTION.PRODUCTS)
+import RequestActionHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper';
+import { COMPANIES_INVENTORY_ACTION } from "./actionTypes";
+export var CompaniesInventoryActions = {
+  view: RequestActionHelper.getActionCreatorFetch(COMPANIES_INVENTORY_ACTION.VIEW),
+  setInventory: RequestActionHelper.getActionCreatorSuccess(COMPANIES_INVENTORY_ACTION.VIEW),
+  products: RequestActionHelper.getActionCreatorFetch(COMPANIES_INVENTORY_ACTION.PRODUCTS),
+  setProducts: RequestActionHelper.getActionCreatorSuccess(COMPANIES_INVENTORY_ACTION.PRODUCTS)
 };
-exports.CompaniesInventoryActions = CompaniesInventoryActions;

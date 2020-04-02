@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ReportsApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Get report info
  *
@@ -16,8 +6,9 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function view(searchQuery) {
-  return (0, _api.callApi)('/v1/reports/list', searchQuery);
+  return callApi('/v1/reports/list', searchQuery);
 }
 /**
  * Generate report
@@ -32,11 +23,10 @@ function generate(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)("/v1/reports/generate", searchQuery);
+  return callApi("/v1/reports/generate", searchQuery);
 }
 
-var ReportsApi = {
+export var ReportsApi = {
   view: view,
   generate: generate
 };
-exports.ReportsApi = ReportsApi;

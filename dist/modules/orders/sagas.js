@@ -1,23 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _effects = require("redux-saga/effects");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(view),
@@ -25,6 +6,10 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(finishByProduct),
     _marked5 = /*#__PURE__*/regeneratorRuntime.mark(cancelByProduct);
 
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { takeLatest } from 'redux-saga/effects';
+import { ORDERS_ACTION } from "./actionTypes";
+import { OrdersApi } from "./api";
 /**
  * List orders
  *
@@ -32,13 +17,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{orders, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.OrdersApi.list);
+          return SagasHelper.defaultList(action, OrdersApi.list);
 
         case 2:
         case "end":
@@ -62,7 +48,7 @@ function view(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.OrdersApi.view);
+          return SagasHelper.defaultView(action, OrdersApi.view);
 
         case 2:
         case "end":
@@ -86,7 +72,7 @@ function pay(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.OrdersApi.pay);
+          return SagasHelper.defaultView(action, OrdersApi.pay);
 
         case 2:
         case "end":
@@ -110,7 +96,7 @@ function finishByProduct(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.OrdersApi.finishByProduct);
+          return SagasHelper.defaultCreate(action, OrdersApi.finishByProduct);
 
         case 2:
         case "end":
@@ -134,7 +120,7 @@ function cancelByProduct(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.OrdersApi.cancelByProduct);
+          return SagasHelper.defaultCreate(action, OrdersApi.cancelByProduct);
 
         case 2:
         case "end":
@@ -144,5 +130,4 @@ function cancelByProduct(action) {
   }, _marked5);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.ORDERS_ACTION.LIST, list), (0, _effects.takeLatest)(_actionTypes.ORDERS_ACTION.VIEW, view), (0, _effects.takeLatest)(_actionTypes.ORDERS_ACTION.PAY, pay), (0, _effects.takeLatest)(_actionTypes.ORDERS_ACTION.FINISH_BY_PRODUCT, finishByProduct), (0, _effects.takeLatest)(_actionTypes.ORDERS_ACTION.CANCEL_BY_PRODUCT, cancelByProduct)];
-exports["default"] = _default;
+export default [takeLatest(ORDERS_ACTION.LIST, list), takeLatest(ORDERS_ACTION.VIEW, view), takeLatest(ORDERS_ACTION.PAY, pay), takeLatest(ORDERS_ACTION.FINISH_BY_PRODUCT, finishByProduct), takeLatest(ORDERS_ACTION.CANCEL_BY_PRODUCT, cancelByProduct)];

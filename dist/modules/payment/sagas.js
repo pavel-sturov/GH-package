@@ -1,27 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _DataProvider = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/DataProvider"));
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _selectors = require("../selectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(create),
@@ -29,6 +6,12 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(deleteCard),
     _marked5 = /*#__PURE__*/regeneratorRuntime.mark(setMain);
 
+import { put, takeLatest } from 'redux-saga/effects';
+import DataProvider from '@kakadu-dev/base-frontend-helpers/helpers/DataProvider';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { DispatchSelector } from "../selectors";
+import { PAYMENT_ACTION } from "./actionTypes";
+import { PaymentApi } from "./api";
 /**
  * List payment cards
  *
@@ -36,13 +19,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{cities, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.PaymentApi.list);
+          return SagasHelper.defaultList(action, PaymentApi.list);
 
         case 2:
         case "end":
@@ -66,7 +50,7 @@ function create(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.PaymentApi.create);
+          return SagasHelper.defaultCreate(action, PaymentApi.create);
 
         case 2:
         case "end":
@@ -90,7 +74,7 @@ function postSecure(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultCustom(action, _api.PaymentApi.postSecure);
+          return SagasHelper.defaultCustom(action, PaymentApi.postSecure);
 
         case 2:
         case "end":
@@ -114,15 +98,15 @@ function deleteCard(action) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
-          setCardlist = _selectors.DispatchSelector.payment.setList;
+          setCardlist = DispatchSelector.payment.setList;
           _context5.next = 3;
-          return _SagasHelper["default"].defaultDelete(action, _api.PaymentApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee(response, searchQuery) {
+          return SagasHelper.defaultDelete(action, PaymentApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee(response, searchQuery) {
             return regeneratorRuntime.wrap(function _callee$(_context4) {
               while (1) {
                 switch (_context4.prev = _context4.next) {
                   case 0:
                     _context4.next = 2;
-                    return (0, _effects.put)(setCardlist(_DataProvider["default"].handleResponseList(response), searchQuery));
+                    return put(setCardlist(DataProvider.handleResponseList(response), searchQuery));
 
                   case 2:
                   case "end":
@@ -154,15 +138,15 @@ function setMain(action) {
     while (1) {
       switch (_context7.prev = _context7.next) {
         case 0:
-          setCardlist = _selectors.DispatchSelector.payment.setList;
+          setCardlist = DispatchSelector.payment.setList;
           _context7.next = 3;
-          return _SagasHelper["default"].defaultCustom(action, _api.PaymentApi.setMain, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee2(response, searchQuery) {
+          return SagasHelper.defaultCustom(action, PaymentApi.setMain, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee2(response, searchQuery) {
             return regeneratorRuntime.wrap(function _callee2$(_context6) {
               while (1) {
                 switch (_context6.prev = _context6.next) {
                   case 0:
                     _context6.next = 2;
-                    return (0, _effects.put)(setCardlist(_DataProvider["default"].handleResponseList(response), searchQuery));
+                    return put(setCardlist(DataProvider.handleResponseList(response), searchQuery));
 
                   case 2:
                   case "end":
@@ -180,5 +164,4 @@ function setMain(action) {
   }, _marked5);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.PAYMENT_ACTION.LIST, list), (0, _effects.takeLatest)(_actionTypes.PAYMENT_ACTION.CREATE, create), (0, _effects.takeLatest)(_actionTypes.PAYMENT_ACTION.POST_SECURE, postSecure), (0, _effects.takeLatest)(_actionTypes.PAYMENT_ACTION.DELETE, deleteCard), (0, _effects.takeLatest)(_actionTypes.PAYMENT_ACTION.SET_MAIN, setMain)];
-exports["default"] = _default;
+export default [takeLatest(PAYMENT_ACTION.LIST, list), takeLatest(PAYMENT_ACTION.CREATE, create), takeLatest(PAYMENT_ACTION.POST_SECURE, postSecure), takeLatest(PAYMENT_ACTION.DELETE, deleteCard), takeLatest(PAYMENT_ACTION.SET_MAIN, setMain)];

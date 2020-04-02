@@ -1,71 +1,22 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getJwtAccessToken = getJwtAccessToken;
-exports.getRefreshToken = getRefreshToken;
-exports.saveFirebaseToken = saveFirebaseToken;
-exports.saveAuthTokens = saveAuthTokens;
-exports.removeAuthTokens = removeAuthTokens;
-exports.saveGuestId = saveGuestId;
-exports.getGuestId = getGuestId;
-exports.callApi = callApi;
-exports.requestConfig = void 0;
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
-require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-var _api = require("@kakadu-dev/base-frontend-helpers/api");
-
-var _Client = require("@kakadu-dev/base-frontend-helpers/helpers/Client");
-
-var _Cookie = require("@kakadu-dev/base-frontend-helpers/helpers/Cookie");
-
-var _AuthService = require("@kakadu-dev/base-frontend-helpers/services/AuthService");
-
-var _FetchService = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/services/FetchService"));
-
-var _config = require("config");
-
-var _authHelpers = require("./authHelpers");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "core-js/modules/es6.function.name";
+import "core-js/modules/es6.regexp.to-string";
+import "core-js/modules/es6.date.to-string";
+import "core-js/modules/es6.array.from";
+import "core-js/modules/es7.symbol.async-iterator";
+import "core-js/modules/es6.array.is-array";
+import "core-js/modules/es6.object.define-properties";
+import "core-js/modules/es7.object.get-own-property-descriptors";
+import "core-js/modules/es6.array.for-each";
+import "core-js/modules/es6.array.filter";
+import "core-js/modules/es6.symbol";
+import "core-js/modules/es6.object.keys";
+import "core-js/modules/es6.object.define-property";
+import "regenerator-runtime/runtime";
+import "core-js/modules/es6.promise";
+import "core-js/modules/web.dom.iterable";
+import "core-js/modules/es6.array.iterator";
+import "core-js/modules/es6.object.to-string";
+import "core-js/modules/es6.string.iterator";
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -91,13 +42,21 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+import { callApi as defaultCallApi } from '@kakadu-dev/base-frontend-helpers/api';
+import { PLATFORM, TYPE } from '@kakadu-dev/base-frontend-helpers/helpers/Client';
+import { deleteCookie, getCookie, setCookie } from '@kakadu-dev/base-frontend-helpers/helpers/Cookie';
+import { AuthService } from '@kakadu-dev/base-frontend-helpers/services/AuthService';
+import FetchService from '@kakadu-dev/base-frontend-helpers/services/FetchService';
+import { API_URL, BUILD_TARGET, ENVIRONMENT_DEV, LANGUAGE_CODE } from 'config';
+import { repeatRequest, requestErrorHandler } from "./authHelpers";
 /**
  * Get jwt access token
  *
  * @return {string}
  */
-function getJwtAccessToken() {
-  return (0, _Cookie.getCookie)('JwtAccessToken');
+
+export function getJwtAccessToken() {
+  return getCookie('JwtAccessToken');
 }
 /**
  * Get jwt refresh token
@@ -105,9 +64,8 @@ function getJwtAccessToken() {
  * @return {string}
  */
 
-
-function getRefreshToken() {
-  return (0, _Cookie.getCookie)('JwtRefreshToken');
+export function getRefreshToken() {
+  return getCookie('JwtRefreshToken');
 }
 /**
  * Save firebase token
@@ -117,8 +75,7 @@ function getRefreshToken() {
  * @return {Promise|boolean}
  */
 
-
-function saveFirebaseToken(headers) {
+export function saveFirebaseToken(headers) {
   if (!headers || typeof headers.get !== 'function') {
     return false;
   }
@@ -126,7 +83,7 @@ function saveFirebaseToken(headers) {
   var token = headers.get('Firebase-Token');
 
   if (token) {
-    return (0, _Cookie.setCookie)('FirebaseToken', token, true);
+    return setCookie('FirebaseToken', token, true);
   }
 
   return false;
@@ -137,9 +94,8 @@ function saveFirebaseToken(headers) {
  * @return {Promise}
  */
 
-
 function removeFirebaseToken() {
-  return (0, _Cookie.deleteCookie)('FirebaseToken');
+  return deleteCookie('FirebaseToken');
 }
 /**
  * Save auth tokens
@@ -150,7 +106,7 @@ function removeFirebaseToken() {
  */
 
 
-function saveAuthTokens(_x) {
+export function saveAuthTokens(_x) {
   return _saveAuthTokens.apply(this, arguments);
 }
 /**
@@ -158,7 +114,6 @@ function saveAuthTokens(_x) {
  *
  * @return {undefined}
  */
-
 
 function _saveAuthTokens() {
   _saveAuthTokens = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(headers) {
@@ -186,7 +141,7 @@ function _saveAuthTokens() {
             return _context6.abrupt("return", false);
 
           case 6:
-            return _context6.abrupt("return", Promise.all([(0, _Cookie.setCookie)('JwtAccessToken', accessToken, true), (0, _Cookie.setCookie)('JwtRefreshToken', refreshToken, true)].concat(_toConsumableArray(_Client.TYPE === 'web' ? [(0, _Cookie.deleteCookie)('Guest-Id')] : []), [saveFirebaseToken(headers)])));
+            return _context6.abrupt("return", Promise.all([setCookie('JwtAccessToken', accessToken, true), setCookie('JwtRefreshToken', refreshToken, true)].concat(_toConsumableArray(TYPE === 'web' ? [deleteCookie('Guest-Id')] : []), [saveFirebaseToken(headers)])));
 
           case 7:
           case "end":
@@ -198,8 +153,8 @@ function _saveAuthTokens() {
   return _saveAuthTokens.apply(this, arguments);
 }
 
-function removeAuthTokens() {
-  return Promise.all([(0, _Cookie.deleteCookie)('JwtAccessToken'), (0, _Cookie.deleteCookie)('JwtRefreshToken'), removeFirebaseToken()]);
+export function removeAuthTokens() {
+  return Promise.all([deleteCookie('JwtAccessToken'), deleteCookie('JwtRefreshToken'), removeFirebaseToken()]);
 }
 /**
  * Save guest identity
@@ -209,8 +164,7 @@ function removeAuthTokens() {
  * @return {boolean}
  */
 
-
-function saveGuestId(headers) {
+export function saveGuestId(headers) {
   if (!headers || typeof headers.get !== 'function') {
     return false;
   }
@@ -218,7 +172,7 @@ function saveGuestId(headers) {
   var guestId = headers.get('Guest-Id');
 
   if (typeof guestId === 'string' && guestId.length > 0) {
-    return (0, _Cookie.setCookie)('Guest-Id', guestId, true);
+    return setCookie('Guest-Id', guestId, true);
   }
 
   return true;
@@ -229,9 +183,8 @@ function saveGuestId(headers) {
  * @return {string | *}
  */
 
-
-function getGuestId() {
-  return (0, _Cookie.getCookie)('Guest-Id');
+export function getGuestId() {
+  return getCookie('Guest-Id');
 }
 /**
  * Request config
@@ -239,16 +192,15 @@ function getGuestId() {
  * @type {object}
  */
 
-
-var requestConfig = {
-  domain: _config.API_URL,
+export var requestConfig = {
+  domain: API_URL,
   requestHeaders: _objectSpread({
-    'Accept-Language': _config.LANGUAGE_CODE,
-    'Client': _Client.TYPE,
-    'ClientDevice': _Client.PLATFORM
-  }, _config.ENVIRONMENT_DEV ? {
+    'Accept-Language': LANGUAGE_CODE,
+    'Client': TYPE,
+    'ClientDevice': PLATFORM
+  }, ENVIRONMENT_DEV ? {
     'Cookie': 'XDEBUG_PROFILE="PHPSTORM"'
-  } : {}, {}, _config.BUILD_TARGET === 'server' ? {
+  } : {}, {}, BUILD_TARGET === 'server' ? {
     'User-Agent': 'Kakadu Base Node Server. Version: 1'
   } : {}),
   successCallback: function successCallback(apiResult, customParams) {
@@ -265,7 +217,7 @@ var requestConfig = {
               return _context.abrupt("return");
 
             case 2:
-              if (!(_Client.TYPE === 'web')) {
+              if (!(TYPE === 'web')) {
                 _context.next = 5;
                 break;
               }
@@ -283,7 +235,7 @@ var requestConfig = {
               return saveAuthTokens(apiResult.response.headers);
 
             case 8:
-              _AuthService.AuthService.getInstance().setSeamlessLogin(false).setSeamlessError(false);
+              AuthService.getInstance().setSeamlessLogin(false).setSeamlessError(false);
 
             case 9:
             case "end":
@@ -303,28 +255,26 @@ var requestConfig = {
  * @return {IterableIterator<Promise<{response: {response: Response, json: any}}|{error: (*|string)}>|*>}
  */
 
-exports.requestConfig = requestConfig;
-
-function callApi(endpoint, options) {
+export function callApi(endpoint, options) {
   var result;
   return regeneratorRuntime.wrap(function callApi$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return (0, _api.callApi)(endpoint, options, {
+          return defaultCallApi(endpoint, options, {
             initRequest: /*#__PURE__*/regeneratorRuntime.mark(function initRequest() {
               return regeneratorRuntime.wrap(function initRequest$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
-                      if (!_AuthService.AuthService.getInstance().getIsSeamlessLogin()) {
+                      if (!AuthService.getInstance().getIsSeamlessLogin()) {
                         _context2.next = 4;
                         break;
                       }
 
                       _context2.next = 3;
-                      return (0, _authHelpers.repeatRequest)(endpoint, options);
+                      return repeatRequest(endpoint, options);
 
                     case 3:
                       return _context2.abrupt("return", _context2.sent);
@@ -381,7 +331,7 @@ function callApi(endpoint, options) {
 
                     case 11:
                       dataProvider.addRequestOptions({
-                        headers: _FetchService["default"].getInstance().getClientHeaders()
+                        headers: FetchService.getInstance().getClientHeaders()
                       }, true);
 
                     case 12:
@@ -397,7 +347,7 @@ function callApi(endpoint, options) {
                   switch (_context4.prev = _context4.next) {
                     case 0:
                       _context4.next = 2;
-                      return (0, _authHelpers.requestErrorHandler)(statusCode, resultError, dataProvider, resultEndpoint, endpoint, options);
+                      return requestErrorHandler(statusCode, resultError, dataProvider, resultEndpoint, endpoint, options);
 
                     case 2:
                       return _context4.abrupt("return", _context4.sent);
@@ -414,11 +364,10 @@ function callApi(endpoint, options) {
 
         case 2:
           result = _context5.sent;
+          AuthService.getInstance().setSeamlessError(false);
 
-          _AuthService.AuthService.getInstance().setSeamlessError(false);
-
-          if (_config.BUILD_TARGET === 'server') {
-            _FetchService["default"].getInstance().setApiHeaders(result && result.response && result.response.headers);
+          if (BUILD_TARGET === 'server') {
+            FetchService.getInstance().setApiHeaders(result && result.response && result.response.headers);
           }
 
           return _context5.abrupt("return", result);

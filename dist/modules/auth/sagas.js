@@ -1,43 +1,25 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _firebase = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/firebase"));
-
-var _messaging = require("@kakadu-dev/base-frontend-helpers/firebase/messaging");
-
-var _DataProvider = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/DataProvider"));
-
-var _RequestActionHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper"));
-
-var _effects = require("redux-saga/effects");
-
-var _api = require("./api");
-
-var _selectors = require("../selectors");
-
-var _user = require("../user");
-
-var _actionTypes = require("./actionTypes");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(fetchSignIn),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(fetchLogOut),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(renewToken);
 
+import firebase from '@kakadu-dev/base-frontend-helpers/firebase';
+import { FirebaseMessaging } from '@kakadu-dev/base-frontend-helpers/firebase/messaging';
+import DataProvider from '@kakadu-dev/base-frontend-helpers/helpers/DataProvider';
+import RequestActionHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { getRefreshToken, removeAuthTokens } from "./api";
+import { DispatchSelector, StateSelector } from "../selectors";
+import { UsersActions } from "../user";
+import { AUTH_ACTION } from "./actionTypes";
+import { AuthApi } from "./api";
 /**
  * Store selectors
  *
  * @type {{getUserId: (function(*): *)}}
  */
+
 var selectors = {
   /**
    * Get auth
@@ -47,7 +29,7 @@ var selectors = {
    * @return {*}
    */
   getAuth: function getAuth(state) {
-    return _selectors.StateSelector.auth.isAuth(state);
+    return StateSelector.auth.isAuth(state);
   }
 };
 /**
@@ -66,20 +48,20 @@ function fetchSignIn(action) {
       switch (_context.prev = _context.next) {
         case 0:
           payload = action.payload, type = action.type;
-          _RequestActionHelper$ = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$.request, success = _RequestActionHelper$.success, error = _RequestActionHelper$.error;
-          saveUser = _selectors.DispatchSelector.user.setUser;
-          saveUserSettings = _selectors.DispatchSelector.user.setUserSettings;
-          saveUserCity = _selectors.DispatchSelector.user.setUserCity;
-          searchQuery = _DataProvider["default"].getSearchQuery(payload).addCustomParams({
+          _RequestActionHelper$ = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$.request, success = _RequestActionHelper$.success, error = _RequestActionHelper$.error;
+          saveUser = DispatchSelector.user.setUser;
+          saveUserSettings = DispatchSelector.user.setUserSettings;
+          saveUserCity = DispatchSelector.user.setUserCity;
+          searchQuery = DataProvider.getSearchQuery(payload).addCustomParams({
             saveAuth: true
           }, true);
           _context.prev = 6;
           _context.next = 9;
-          return (0, _effects.put)(request(searchQuery));
+          return put(request(searchQuery));
 
         case 9:
           _context.next = 11;
-          return (0, _effects.call)(_api.AuthApi.signIn, searchQuery);
+          return call(AuthApi.signIn, searchQuery);
 
         case 11:
           response = _context.sent;
@@ -95,14 +77,14 @@ function fetchSignIn(action) {
 
         case 16:
           _context.next = 18;
-          return (0, _effects.put)(success({
+          return put(success({
             provider: bodyParams.provider,
             realProvider: customParams.realProvider || bodyParams.provider
           }, searchQuery));
 
         case 18:
           _context.next = 20;
-          return (0, _effects.put)(saveUser(response.result));
+          return put(saveUser(response.result));
 
         case 20:
           if (!(response && response.result && response.result.settings)) {
@@ -111,7 +93,7 @@ function fetchSignIn(action) {
           }
 
           _context.next = 23;
-          return (0, _effects.put)(saveUserSettings(response.result.settings));
+          return put(saveUserSettings(response.result.settings));
 
         case 23:
           if (!(response && response.result && response.result.city)) {
@@ -120,11 +102,11 @@ function fetchSignIn(action) {
           }
 
           _context.next = 26;
-          return (0, _effects.put)(saveUserCity(response.result.city));
+          return put(saveUserCity(response.result.city));
 
         case 26:
           _context.next = 28;
-          return _messaging.FirebaseMessaging.getInstance().getUserToken();
+          return FirebaseMessaging.getInstance().getUserToken();
 
         case 28:
           firebasePushToken = _context.sent;
@@ -135,7 +117,7 @@ function fetchSignIn(action) {
           }
 
           _context.next = 32;
-          return (0, _effects.put)(_user.UsersActions.updatePushToken(firebasePushToken));
+          return put(UsersActions.updatePushToken(firebasePushToken));
 
         case 32:
           searchQuery.runSuccessCallback(response);
@@ -146,7 +128,7 @@ function fetchSignIn(action) {
           _context.prev = 35;
           _context.t0 = _context["catch"](6);
           _context.next = 39;
-          return (0, _effects.put)(error(searchQuery.addReduxRequestParams({
+          return put(error(searchQuery.addReduxRequestParams({
             error: _context.t0
           })));
 
@@ -180,49 +162,47 @@ function fetchLogOut(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           payload = action.payload, type = action.type;
-          _RequestActionHelper$2 = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$2.request, success = _RequestActionHelper$2.success, error = _RequestActionHelper$2.error;
-          removeUser = _selectors.DispatchSelector.user.setUser;
-          removeUserSetting = _selectors.DispatchSelector.user.setUserSettings;
-          removeAuth = _selectors.DispatchSelector.auth.setAuth;
-          searchQuery = _DataProvider["default"].getSearchQuery(payload);
+          _RequestActionHelper$2 = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$2.request, success = _RequestActionHelper$2.success, error = _RequestActionHelper$2.error;
+          removeUser = DispatchSelector.user.setUser;
+          removeUserSetting = DispatchSelector.user.setUserSettings;
+          removeAuth = DispatchSelector.auth.setAuth;
+          searchQuery = DataProvider.getSearchQuery(payload);
           _context2.prev = 6;
           _context2.next = 9;
-          return (0, _effects.select)(selectors.getAuth);
+          return select(selectors.getAuth);
 
         case 9:
           auth = _context2.sent;
           _context2.next = 12;
-          return (0, _effects.put)(request(searchQuery));
+          return put(request(searchQuery));
 
         case 12:
           _context2.next = 14;
-          return (0, _effects.call)(_api.AuthApi.logOut, searchQuery);
+          return call(AuthApi.logOut, searchQuery);
 
         case 14:
           response = _context2.sent;
-
-          _firebase["default"].auth().signOut()["catch"](function () {// Skip firebase logout error
+          firebase.auth().signOut()["catch"](function () {// Skip firebase logout error
             // Dont` show unhandled promise rejection
           });
-
           _context2.next = 18;
-          return (0, _effects.put)(success());
+          return put(success());
 
         case 18:
           _context2.next = 20;
-          return (0, _effects.put)(removeUser(null));
+          return put(removeUser(null));
 
         case 20:
           _context2.next = 22;
-          return (0, _effects.put)(removeUserSetting(null));
+          return put(removeUserSetting(null));
 
         case 22:
           _context2.next = 24;
-          return (0, _effects.put)(removeAuth(null));
+          return put(removeAuth(null));
 
         case 24:
           _context2.next = 26;
-          return (0, _api.removeAuthTokens)();
+          return removeAuthTokens();
 
         case 26:
           searchQuery.runSuccessCallback(response, auth);
@@ -233,7 +213,7 @@ function fetchLogOut(action) {
           _context2.prev = 29;
           _context2.t0 = _context2["catch"](6);
           _context2.next = 33;
-          return (0, _effects.put)(error(searchQuery.addReduxRequestParams({
+          return put(error(searchQuery.addReduxRequestParams({
             error: _context2.t0
           })));
 
@@ -267,10 +247,10 @@ function renewToken(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           payload = action.payload, type = action.type;
-          _RequestActionHelper$3 = _RequestActionHelper["default"].getAllActions(type), request = _RequestActionHelper$3.request, success = _RequestActionHelper$3.success, error = _RequestActionHelper$3.error;
-          _context3.t0 = _DataProvider["default"].getSearchQuery(payload);
+          _RequestActionHelper$3 = RequestActionHelper.getAllActions(type), request = _RequestActionHelper$3.request, success = _RequestActionHelper$3.success, error = _RequestActionHelper$3.error;
+          _context3.t0 = DataProvider.getSearchQuery(payload);
           _context3.next = 5;
-          return (0, _api.getRefreshToken)();
+          return getRefreshToken();
 
         case 5:
           _context3.t1 = _context3.sent;
@@ -285,16 +265,16 @@ function renewToken(action) {
           }, true);
           _context3.prev = 9;
           _context3.next = 12;
-          return (0, _effects.put)(request(searchQuery));
+          return put(request(searchQuery));
 
         case 12:
           _context3.next = 14;
-          return (0, _effects.call)(_api.AuthApi.renewToken, searchQuery);
+          return call(AuthApi.renewToken, searchQuery);
 
         case 14:
           response = _context3.sent;
           _context3.next = 17;
-          return (0, _effects.put)(success());
+          return put(success());
 
         case 17:
           if (!(!response && response.response && response.response.headers)) {
@@ -313,7 +293,7 @@ function renewToken(action) {
           _context3.prev = 22;
           _context3.t4 = _context3["catch"](9);
           _context3.next = 26;
-          return (0, _effects.put)(error(searchQuery.addReduxRequestParams({
+          return put(error(searchQuery.addReduxRequestParams({
             error: _context3.t4
           })));
 
@@ -331,5 +311,4 @@ function renewToken(action) {
   }, _marked3, null, [[9, 22]]);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.AUTH_ACTION.SIGN_IN, fetchSignIn), (0, _effects.takeLatest)(_actionTypes.AUTH_ACTION.LOG_OUT, fetchLogOut), (0, _effects.takeLatest)(_actionTypes.AUTH_ACTION.RENEW_TOKEN, renewToken)];
-exports["default"] = _default;
+export default [takeLatest(AUTH_ACTION.SIGN_IN, fetchSignIn), takeLatest(AUTH_ACTION.LOG_OUT, fetchLogOut), takeLatest(AUTH_ACTION.RENEW_TOKEN, renewToken)];

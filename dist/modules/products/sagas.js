@@ -1,23 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(view),
@@ -28,6 +9,10 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
     _marked7 = /*#__PURE__*/regeneratorRuntime.mark(addToStock),
     _marked8 = /*#__PURE__*/regeneratorRuntime.mark(batchUpload);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { PRODUCTS_ACTIONS } from "./actionTypes";
+import { ProductsApi } from "./api";
 /**
  * Create product
  *
@@ -35,13 +20,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{products, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function create(action) {
   return regeneratorRuntime.wrap(function create$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.ProductsApi.create);
+          return SagasHelper.defaultCreate(action, ProductsApi.create);
 
         case 2:
         case "end":
@@ -65,7 +51,7 @@ function view(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.ProductsApi.view);
+          return SagasHelper.defaultView(action, ProductsApi.view);
 
         case 2:
         case "end":
@@ -89,7 +75,7 @@ function viewBarcode(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.ProductsApi.viewBarcode);
+          return SagasHelper.defaultView(action, ProductsApi.viewBarcode);
 
         case 2:
         case "end":
@@ -113,7 +99,7 @@ function list(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.ProductsApi.list);
+          return SagasHelper.defaultList(action, ProductsApi.list);
 
         case 2:
         case "end":
@@ -137,7 +123,7 @@ function update(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.ProductsApi.update);
+          return SagasHelper.defaultUpdate(action, ProductsApi.update);
 
         case 2:
         case "end":
@@ -161,7 +147,7 @@ function deleteModel(action) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.ProductsApi.deleteModel);
+          return SagasHelper.defaultDelete(action, ProductsApi.deleteModel);
 
         case 2:
         case "end":
@@ -185,7 +171,7 @@ function addToStock(action) {
       switch (_context7.prev = _context7.next) {
         case 0:
           _context7.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.ProductsApi.addToStock);
+          return SagasHelper.defaultCreate(action, ProductsApi.addToStock);
 
         case 2:
         case "end":
@@ -209,7 +195,7 @@ function batchUpload(action) {
       switch (_context8.prev = _context8.next) {
         case 0:
           _context8.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.ProductsApi.batchUpload);
+          return SagasHelper.defaultCreate(action, ProductsApi.batchUpload);
 
         case 2:
         case "end":
@@ -219,5 +205,4 @@ function batchUpload(action) {
   }, _marked8);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.CREATE, create), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.VIEW, view), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.VIEW_BARCODE, viewBarcode), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.LIST, list), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.SEARCH, list), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.UPDATE, update), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.DELETE, deleteModel), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.ADD_TO_STOCK, addToStock), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_ACTIONS.BATCH_UPLOAD, batchUpload)];
-exports["default"] = _default;
+export default [takeLatest(PRODUCTS_ACTIONS.CREATE, create), takeLatest(PRODUCTS_ACTIONS.VIEW, view), takeLatest(PRODUCTS_ACTIONS.VIEW_BARCODE, viewBarcode), takeLatest(PRODUCTS_ACTIONS.LIST, list), takeLatest(PRODUCTS_ACTIONS.SEARCH, list), takeLatest(PRODUCTS_ACTIONS.UPDATE, update), takeLatest(PRODUCTS_ACTIONS.DELETE, deleteModel), takeLatest(PRODUCTS_ACTIONS.ADD_TO_STOCK, addToStock), takeLatest(PRODUCTS_ACTIONS.BATCH_UPLOAD, batchUpload)];

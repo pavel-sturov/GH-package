@@ -1,33 +1,16 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionCreators = require("./actionCreators");
-
-var _actionSelectors = require("./actionSelectors");
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(view),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(deleteModel),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(deleteAll);
 
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { LogsActions } from "./actionCreators";
+import { LogsStateSelectors } from "./actionSelectors";
+import { LOGS_ACTION } from "./actionTypes";
+import { LogsApi } from "./api";
 /**
  * Get companies list
  *
@@ -35,13 +18,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(list),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{log, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function list(action) {
   return regeneratorRuntime.wrap(function list$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.LogsApi.list);
+          return SagasHelper.defaultList(action, LogsApi.list);
 
         case 2:
         case "end":
@@ -65,7 +49,7 @@ function view(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.LogsApi.view);
+          return SagasHelper.defaultView(action, LogsApi.view);
 
         case 2:
         case "end":
@@ -89,7 +73,7 @@ function deleteModel(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.LogsApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return SagasHelper.defaultDelete(action, LogsApi["delete"], null, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var _len,
                 params,
                 _key,
@@ -104,7 +88,7 @@ function deleteModel(action) {
                     }
 
                     _context3.next = 3;
-                    return _SagasHelper["default"].afterDeleteModelFromList.apply(_SagasHelper["default"], params.concat([_actionSelectors.LogsStateSelectors.list, _actionCreators.LogsActions.setList]));
+                    return SagasHelper.afterDeleteModelFromList.apply(SagasHelper, params.concat([LogsStateSelectors.list, LogsActions.setList]));
 
                   case 3:
                   case "end":
@@ -136,7 +120,7 @@ function deleteAll(action) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return _SagasHelper["default"].defaultDeleteAll(action, _api.LogsApi.deleteAll, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+          return SagasHelper.defaultDeleteAll(action, LogsApi.deleteAll, null, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
             var _len2,
                 params,
                 _key2,
@@ -151,7 +135,7 @@ function deleteAll(action) {
                     }
 
                     _context5.next = 3;
-                    return _SagasHelper["default"].afterClearState.apply(_SagasHelper["default"], params.concat([_actionCreators.LogsActions.list]));
+                    return SagasHelper.afterClearState.apply(SagasHelper, params.concat([LogsActions.list]));
 
                   case 3:
                   case "end":
@@ -169,5 +153,4 @@ function deleteAll(action) {
   }, _marked4);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.LOGS_ACTION.LIST, list), (0, _effects.takeLatest)(_actionTypes.LOGS_ACTION.VIEW, view), (0, _effects.takeLatest)(_actionTypes.LOGS_ACTION.DELETE, deleteModel), (0, _effects.takeLatest)(_actionTypes.LOGS_ACTION.DELETE_ALL, deleteAll)];
-exports["default"] = _default;
+export default [takeLatest(LOGS_ACTION.LIST, list), takeLatest(LOGS_ACTION.VIEW, view), takeLatest(LOGS_ACTION.DELETE, deleteModel), takeLatest(LOGS_ACTION.DELETE_ALL, deleteAll)];

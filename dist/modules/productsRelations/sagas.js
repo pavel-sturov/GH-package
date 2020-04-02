@@ -1,29 +1,15 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(view),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(list),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(deleteModel);
 
+/* eslint-disable max-len */
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { PRODUCTS_RELATIONS_ACTIONS } from "./actionTypes";
+import { ProductsRelationsApi } from "./api";
 /**
  * Create product relation
  *
@@ -31,13 +17,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{productsRelations, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function create(action) {
   return regeneratorRuntime.wrap(function create$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.ProductsRelationsApi.create);
+          return SagasHelper.defaultCreate(action, ProductsRelationsApi.create);
 
         case 2:
         case "end":
@@ -61,7 +48,7 @@ function view(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.ProductsRelationsApi.view);
+          return SagasHelper.defaultView(action, ProductsRelationsApi.view);
 
         case 2:
         case "end":
@@ -85,7 +72,7 @@ function list(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.ProductsRelationsApi.list);
+          return SagasHelper.defaultList(action, ProductsRelationsApi.list);
 
         case 2:
         case "end":
@@ -109,7 +96,7 @@ function deleteModel(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.ProductsRelationsApi["delete"]);
+          return SagasHelper.defaultDelete(action, ProductsRelationsApi["delete"]);
 
         case 2:
         case "end":
@@ -119,5 +106,4 @@ function deleteModel(action) {
   }, _marked4);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.PRODUCTS_RELATIONS_ACTIONS.CREATE, create), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_RELATIONS_ACTIONS.VIEW, view), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_RELATIONS_ACTIONS.LIST, list), (0, _effects.takeLatest)(_actionTypes.PRODUCTS_RELATIONS_ACTIONS.DELETE, deleteModel)];
-exports["default"] = _default;
+export default [takeLatest(PRODUCTS_RELATIONS_ACTIONS.CREATE, create), takeLatest(PRODUCTS_RELATIONS_ACTIONS.VIEW, view), takeLatest(PRODUCTS_RELATIONS_ACTIONS.LIST, list), takeLatest(PRODUCTS_RELATIONS_ACTIONS.DELETE, deleteModel)];

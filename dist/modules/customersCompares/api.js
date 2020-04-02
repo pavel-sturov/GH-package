@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CustomerCompareApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Add customer compare
  *
@@ -16,11 +6,12 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/customers-compares', searchQuery);
+  return callApi('/v1/customers-compares', searchQuery);
 }
 /**
  * Delete customer compare
@@ -36,7 +27,7 @@ function deleteModel(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)("/v1/customers-compares/".concat(id), searchQuery);
+  return callApi("/v1/customers-compares/".concat(id), searchQuery);
 }
 /**
  * Delete all compares
@@ -51,24 +42,23 @@ function deleteAll(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'DELETE'
   }, true);
-  return (0, _api.callApi)('/v1/customers-compares', searchQuery);
+  return callApi('/v1/customers-compares', searchQuery);
 }
 
-var CustomerCompareApi = {
+export var CustomerCompareApi = {
   list: function list(searchQuery) {
-    return (0, _api.callApi)('/v1/customers-compares', searchQuery);
+    return callApi('/v1/customers-compares', searchQuery);
   },
   create: create,
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/v1/customers-compares/".concat(id), searchQuery);
+    return callApi("/v1/customers-compares/".concat(id), searchQuery);
   },
   "delete": deleteModel,
   deleteAll: deleteAll,
   hierarchical: function hierarchical(searchQuery) {
-    return (0, _api.callApi)('/v1/customers-compares/hierarchical', searchQuery);
+    return callApi('/v1/customers-compares/hierarchical', searchQuery);
   },
   products: function products(searchQuery) {
-    return (0, _api.callApi)('/v1/customers-compares/products', searchQuery);
+    return callApi('/v1/customers-compares/products', searchQuery);
   }
 };
-exports.CustomerCompareApi = CustomerCompareApi;

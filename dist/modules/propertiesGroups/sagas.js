@@ -1,23 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("regenerator-runtime/runtime");
-
-var _effects = require("redux-saga/effects");
-
-var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper"));
-
-var _actionTypes = require("./actionTypes");
-
-var _api = require("./api");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(view),
@@ -25,6 +6,11 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(update),
     _marked5 = /*#__PURE__*/regeneratorRuntime.mark(deleteModel);
 
+/* eslint-disable max-len */
+import { takeLatest } from 'redux-saga/effects';
+import SagasHelper from '@kakadu-dev/base-frontend-helpers/helpers/Redux/SagasHelper';
+import { PROPERTIES_GROUPS_ACTIONS } from "./actionTypes";
+import { PropertiesGroupsApi } from "./api";
 /**
  * Create property
  *
@@ -32,13 +18,14 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(create),
  *
  * @return {IterableIterator<PutEffect<{type, message}>|PutEffect<{propertiesGroups, type}>|CallEffect|PutEffect<{type}>>}
  */
+
 function create(action) {
   return regeneratorRuntime.wrap(function create$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _SagasHelper["default"].defaultCreate(action, _api.PropertiesGroupsApi.create);
+          return SagasHelper.defaultCreate(action, PropertiesGroupsApi.create);
 
         case 2:
         case "end":
@@ -62,7 +49,7 @@ function view(action) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return _SagasHelper["default"].defaultView(action, _api.PropertiesGroupsApi.view);
+          return SagasHelper.defaultView(action, PropertiesGroupsApi.view);
 
         case 2:
         case "end":
@@ -86,7 +73,7 @@ function list(action) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return _SagasHelper["default"].defaultList(action, _api.PropertiesGroupsApi.list);
+          return SagasHelper.defaultList(action, PropertiesGroupsApi.list);
 
         case 2:
         case "end":
@@ -110,7 +97,7 @@ function update(action) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return _SagasHelper["default"].defaultUpdate(action, _api.PropertiesGroupsApi.update);
+          return SagasHelper.defaultUpdate(action, PropertiesGroupsApi.update);
 
         case 2:
         case "end":
@@ -134,7 +121,7 @@ function deleteModel(action) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _SagasHelper["default"].defaultDelete(action, _api.PropertiesGroupsApi["delete"]);
+          return SagasHelper.defaultDelete(action, PropertiesGroupsApi["delete"]);
 
         case 2:
         case "end":
@@ -144,5 +131,4 @@ function deleteModel(action) {
   }, _marked5);
 }
 
-var _default = [(0, _effects.takeLatest)(_actionTypes.PROPERTIES_GROUPS_ACTIONS.CREATE, create), (0, _effects.takeLatest)(_actionTypes.PROPERTIES_GROUPS_ACTIONS.VIEW, view), (0, _effects.takeLatest)(_actionTypes.PROPERTIES_GROUPS_ACTIONS.LIST, list), (0, _effects.takeLatest)(_actionTypes.PROPERTIES_GROUPS_ACTIONS.UPDATE, update), (0, _effects.takeLatest)(_actionTypes.PROPERTIES_GROUPS_ACTIONS.DELETE, deleteModel)];
-exports["default"] = _default;
+export default [takeLatest(PROPERTIES_GROUPS_ACTIONS.CREATE, create), takeLatest(PROPERTIES_GROUPS_ACTIONS.VIEW, view), takeLatest(PROPERTIES_GROUPS_ACTIONS.LIST, list), takeLatest(PROPERTIES_GROUPS_ACTIONS.UPDATE, update), takeLatest(PROPERTIES_GROUPS_ACTIONS.DELETE, deleteModel)];

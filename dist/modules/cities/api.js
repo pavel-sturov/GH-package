@@ -1,14 +1,4 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CitiesApi = void 0;
-
-var _api = require("./api");
-
+import { callApi } from "./api";
 /**
  * Create city
  *
@@ -16,11 +6,12 @@ var _api = require("./api");
  *
  * @return {Promise<{response: {response: Response, json: any}}|{error: (*|string)}>}
  */
+
 function create(searchQuery) {
   searchQuery.addRequestOptions({
     method: 'POST'
   }, true);
-  return (0, _api.callApi)('/v1/cities', searchQuery);
+  return callApi('/v1/cities', searchQuery);
 }
 /**
  * Update city
@@ -36,20 +27,19 @@ function update(id, searchQuery) {
   searchQuery.addRequestOptions({
     method: 'PATCH'
   }, true);
-  return (0, _api.callApi)("/v1/cities/".concat(id), searchQuery);
+  return callApi("/v1/cities/".concat(id), searchQuery);
 }
 
-var CitiesApi = {
+export var CitiesApi = {
   create: create,
   update: update,
   defaultCity: function defaultCity(searchQuery) {
-    return (0, _api.callApi)('/v1/cities/default', searchQuery);
+    return callApi('/v1/cities/default', searchQuery);
   },
   list: function list(searchQuery) {
-    return (0, _api.callApi)('/v1/cities', searchQuery);
+    return callApi('/v1/cities', searchQuery);
   },
   view: function view(id, searchQuery) {
-    return (0, _api.callApi)("/v1/cities/".concat(id), searchQuery);
+    return callApi("/v1/cities/".concat(id), searchQuery);
   }
 };
-exports.CitiesApi = CitiesApi;

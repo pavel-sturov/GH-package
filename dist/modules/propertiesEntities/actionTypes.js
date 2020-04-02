@@ -1,16 +1,7 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PROPERTIES_ENTITIES_ACTIONS = void 0;
-var PROPERTIES_ENTITIES_ACTIONS = {
+export var PROPERTIES_ENTITIES_ACTIONS = {
   VIEW: 'PROPERTIES_ENTITIES_VIEW',
   LIST: 'PROPERTIES_ENTITIES_LIST',
   CREATE: 'PROPERTIES_ENTITIES_CREATE',
   UPDATE: 'PROPERTIES_ENTITIES_UPDATE',
   DELETE: 'PROPERTIES_ENTITIES_DELETE'
 };
-exports.PROPERTIES_ENTITIES_ACTIONS = PROPERTIES_ENTITIES_ACTIONS;

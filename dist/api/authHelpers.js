@@ -1,40 +1,18 @@
-"use strict";
-
-require("core-js/modules/es6.object.define-property");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.repeatRequest = repeatRequest;
-exports.seamlessLogin = seamlessLogin;
-exports.renewToken = renewToken;
-exports.requestErrorHandler = requestErrorHandler;
-
-require("core-js/modules/es6.number.constructor");
-
-require("regenerator-runtime/runtime");
-
-var _api = require("@kakadu-dev/base-frontend-helpers/api");
-
-var _DataProvider = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/DataProvider"));
-
-var _AuthService = require("@kakadu-dev/base-frontend-helpers/services/AuthService");
-
-var _effects = require("@redux-saga/core/effects");
-
-var _auth = require("../modules/auth");
-
-var _api2 = require("../modules/auth/api");
-
-var _index = require("./index");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+import "core-js/modules/es6.number.constructor";
+import "regenerator-runtime/runtime";
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(repeatRequest),
     _marked2 = /*#__PURE__*/regeneratorRuntime.mark(seamlessLogin),
     _marked3 = /*#__PURE__*/regeneratorRuntime.mark(renewToken),
     _marked4 = /*#__PURE__*/regeneratorRuntime.mark(requestErrorHandler);
 
+import { callApiEndpoint } from '@kakadu-dev/base-frontend-helpers/api';
+import DataProvider from '@kakadu-dev/base-frontend-helpers/helpers/DataProvider';
+import { AuthService } from '@kakadu-dev/base-frontend-helpers/services/AuthService';
+import { call, delay, put } from '@redux-saga/core/effects';
+import { AuthActions } from "../modules/auth";
+import { AuthApi } from "../modules/auth/api";
+import { callApi, getJwtAccessToken, getRefreshToken, requestConfig } from "./index";
 /**
  * Repeat call api request
  * Wait done seamless login and run request
@@ -45,7 +23,8 @@ var _marked = /*#__PURE__*/regeneratorRuntime.mark(repeatRequest),
  *
  * @return {IterableIterator<*>}
  */
-function repeatRequest(endpoint, options) {
+
+export function repeatRequest(endpoint, options) {
   var attempts,
       _args = arguments;
   return regeneratorRuntime.wrap(function repeatRequest$(_context) {
@@ -54,10 +33,10 @@ function repeatRequest(endpoint, options) {
         case 0:
           attempts = _args.length > 2 && _args[2] !== undefined ? _args[2] : 1;
           _context.next = 3;
-          return (0, _effects.delay)(1500);
+          return delay(1500);
 
         case 3:
-          if (!(_AuthService.AuthService.getInstance().getIsSeamlessLogin() && attempts < 5)) {
+          if (!(AuthService.getInstance().getIsSeamlessLogin() && attempts < 5)) {
             _context.next = 5;
             break;
           }
@@ -65,7 +44,7 @@ function repeatRequest(endpoint, options) {
           return _context.abrupt("return", repeatRequest(endpoint, options, attempts + 1));
 
         case 5:
-          if (!_AuthService.AuthService.getInstance().getSeamlessLoginError()) {
+          if (!AuthService.getInstance().getSeamlessLoginError()) {
             _context.next = 7;
             break;
           }
@@ -74,7 +53,7 @@ function repeatRequest(endpoint, options) {
 
         case 7:
           _context.next = 9;
-          return (0, _index.callApi)(endpoint, options);
+          return callApi(endpoint, options);
 
         case 9:
           return _context.abrupt("return", _context.sent);
@@ -95,15 +74,14 @@ function repeatRequest(endpoint, options) {
  * @return {object}
  */
 
-
-function seamlessLogin(dataProvider, endpoint) {
+export function seamlessLogin(dataProvider, endpoint) {
   var refreshToken, dataProviderClean, result, headers;
   return regeneratorRuntime.wrap(function seamlessLogin$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return (0, _index.getRefreshToken)();
+          return getRefreshToken();
 
         case 2:
           refreshToken = _context2.sent;
@@ -116,7 +94,7 @@ function seamlessLogin(dataProvider, endpoint) {
             saveAuth: true
           }, false);
           _context2.next = 7;
-          return (0, _api.callApiEndpoint)(endpoint, dataProviderClean, _index.requestConfig);
+          return callApiEndpoint(endpoint, dataProviderClean, requestConfig);
 
         case 7:
           result = _context2.sent;
@@ -150,16 +128,15 @@ function seamlessLogin(dataProvider, endpoint) {
  * @return {object}
  */
 
-
-function renewToken(dataProvider, endpoint) {
+export function renewToken(dataProvider, endpoint) {
   var renewSearchQuery, result, error, headers, dataProviderClean;
   return regeneratorRuntime.wrap(function renewToken$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _context3.t0 = _DataProvider["default"].buildQuery();
+          _context3.t0 = DataProvider.buildQuery();
           _context3.next = 3;
-          return (0, _index.getRefreshToken)();
+          return getRefreshToken();
 
         case 3:
           _context3.t1 = _context3.sent;
@@ -174,11 +151,9 @@ function renewToken(dataProvider, endpoint) {
           }, true);
           result = {};
           _context3.prev = 8;
-
-          _AuthService.AuthService.getInstance().setSeamlessLogin(false);
-
+          AuthService.getInstance().setSeamlessLogin(false);
           _context3.next = 12;
-          return (0, _effects.call)(_api2.AuthApi.renewToken, renewSearchQuery);
+          return call(AuthApi.renewToken, renewSearchQuery);
 
         case 12:
           result = _context3.sent;
@@ -198,7 +173,7 @@ function renewToken(dataProvider, endpoint) {
             message: 'Ваша сессия истекла. Выполните вход заново.'
           };
           _context3.next = 21;
-          return (0, _effects.put)(_auth.AuthActions.renewTokenError(renewSearchQuery.addReduxRequestParams({
+          return put(AuthActions.renewTokenError(renewSearchQuery.addReduxRequestParams({
             error: error
           })));
 
@@ -229,7 +204,7 @@ function renewToken(dataProvider, endpoint) {
         case 26:
           dataProviderClean = dataProvider.cloneInstance().addCustomParams({}, false);
           _context3.next = 29;
-          return (0, _api.callApiEndpoint)(endpoint, dataProviderClean, _index.requestConfig);
+          return callApiEndpoint(endpoint, dataProviderClean, requestConfig);
 
         case 29:
           return _context3.abrupt("return", _context3.sent);
@@ -253,8 +228,7 @@ function renewToken(dataProvider, endpoint) {
  * @return {IterableIterator<IterableIterator<*>|<"PUT", PutEffectDescriptor<*>>|*>}
  */
 
-
-function requestErrorHandler(statusCode, resultError, dataProvider, endpoint, options) {
+export function requestErrorHandler(statusCode, resultError, dataProvider, endpoint, options) {
   var customParams, jwtAccessToken, seamlessResult, seamlessError, seamlessResponse, statusCode2, logOutSearchQuery;
   return regeneratorRuntime.wrap(function requestErrorHandler$(_context4) {
     while (1) {
@@ -262,7 +236,7 @@ function requestErrorHandler(statusCode, resultError, dataProvider, endpoint, op
         case 0:
           customParams = dataProvider.getCustomParams();
           _context4.next = 3;
-          return (0, _index.getJwtAccessToken)();
+          return getJwtAccessToken();
 
         case 3:
           jwtAccessToken = _context4.sent;
@@ -272,7 +246,7 @@ function requestErrorHandler(statusCode, resultError, dataProvider, endpoint, op
             break;
           }
 
-          if (!_AuthService.AuthService.getInstance().getIsSeamlessLogin()) {
+          if (!AuthService.getInstance().getIsSeamlessLogin()) {
             _context4.next = 9;
             break;
           }
@@ -284,7 +258,7 @@ function requestErrorHandler(statusCode, resultError, dataProvider, endpoint, op
           return _context4.abrupt("return", _context4.sent);
 
         case 9:
-          _AuthService.AuthService.getInstance().setSeamlessLogin(true);
+          AuthService.getInstance().setSeamlessLogin(true);
 
           if (!(customParams.externalRequest === true)) {
             _context4.next = 16;
@@ -309,8 +283,7 @@ function requestErrorHandler(statusCode, resultError, dataProvider, endpoint, op
         case 19:
           seamlessResult = _context4.t0;
           seamlessError = seamlessResult.result, seamlessResponse = seamlessResult.response;
-
-          _AuthService.AuthService.getInstance().setSeamlessLogin(false).setSeamlessError(seamlessResult && seamlessResult.error && true);
+          AuthService.getInstance().setSeamlessLogin(false).setSeamlessError(seamlessResult && seamlessResult.error && true);
 
           if (!(seamlessResult && !seamlessResult.error)) {
             _context4.next = 24;
@@ -330,14 +303,14 @@ function requestErrorHandler(statusCode, resultError, dataProvider, endpoint, op
             break;
           }
 
-          logOutSearchQuery = _DataProvider["default"].buildQuery().setCallback(function () {
+          logOutSearchQuery = DataProvider.buildQuery().setCallback(function () {
             // Reauth mobile app (anonymous)
-            _AuthService.AuthService.getInstance().authCallback();
+            AuthService.getInstance().authCallback();
           });
           resultError.message = 'Авторизация истекла, войдите заново.';
           _context4.prev = 30;
           _context4.next = 33;
-          return (0, _effects.put)(_auth.AuthActions.logOut(logOutSearchQuery));
+          return put(AuthActions.logOut(logOutSearchQuery));
 
         case 33:
           _context4.next = 38;
