@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AuthApi = void 0;
 
-var _api = require("api");
+var _api = require("./api");
 
 /**
  * Sign in

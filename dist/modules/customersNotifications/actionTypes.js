@@ -1,0 +1,15 @@
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.NOTIFICATIONS_ACTIONS = void 0;
+var NOTIFICATIONS_ACTIONS = {
+  LIST: 'CUSTOMERS_NOTIFICATIONS_LIST',
+  SMART_LIST: 'CUSTOMERS_NOTIFICATIONSSMART_LIST',
+  VIEW: 'CUSTOMERS_NOTIFICATIONS_VIEW',
+  UPDATE: 'CUSTOMERS_NOTIFICATIONS_UPDATE'
+};
+exports.NOTIFICATIONS_ACTIONS = NOTIFICATIONS_ACTIONS;

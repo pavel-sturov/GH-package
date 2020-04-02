@@ -31,7 +31,7 @@ var _DataProvider = _interopRequireDefault(require("@kakadu-dev/base-frontend-he
 
 var _RequestActionHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/Redux/RequestActionHelper"));
 
-var _PersistHelper = _interopRequireDefault(require("../../helpers/Redux/PersistHelper"));
+var _PersistHelper = _interopRequireDefault(require("helpers/Redux/PersistHelper"));
 
 var _actionTypes = require("./actionTypes");
 

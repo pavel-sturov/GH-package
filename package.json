@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/pavel-sturov/GH-package.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "author": "Pavel Sturov",
   "license": "ISC",
   "bugs": {
@@ -22,5 +25,9 @@
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.9.0",
     "babel-plugin-module-resolver": "^4.0.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.8.7",
+    "@kakadu-dev/base-frontend-helpers": "^1.18.2"
   }
 }

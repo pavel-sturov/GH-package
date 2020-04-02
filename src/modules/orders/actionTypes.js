@@ -1,0 +1,7 @@
+export const ORDERS_ACTION = {
+	VIEW:              'ORDERS_VIEW',
+	LIST:              'ORDERS_LIST',
+	PAY:               'ORDERS_PAY',
+	FINISH_BY_PRODUCT: 'ORDERS_FINISH_BY_PRODUCT',
+	CANCEL_BY_PRODUCT: 'ORDERS_CANCEL_BY_PRODUCT',
+}

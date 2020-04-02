@@ -1,0 +1,6 @@
+export const LOGS_ACTION = {
+	LIST:       'LOGS_LIST',
+	DELETE:     'LOGS_DELETE',
+	DELETE_ALL: 'LOGS_DELETE_ALL',
+	VIEW:       'LOGS_VIEW',
+}

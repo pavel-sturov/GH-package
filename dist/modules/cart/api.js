@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CartApi = void 0;
 
-var _api = require("api");
+var _api = require("../../api");
 
 var _SearchQuery = _interopRequireDefault(require("@kakadu-dev/base-frontend-helpers/helpers/DataProvider/SearchQuery"));
 

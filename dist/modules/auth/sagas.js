@@ -19,15 +19,13 @@ var _RequestActionHelper = _interopRequireDefault(require("@kakadu-dev/base-fron
 
 var _effects = require("redux-saga/effects");
 
-var _api = require("api");
+var _api = require("./api");
 
-var _selectors = require("modules/selectors");
+var _selectors = require("../selectors");
 
-var _user = require("modules/user");
+var _user = require("../user");
 
 var _actionTypes = require("./actionTypes");
-
-var _api2 = require("./api");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -81,7 +79,7 @@ function fetchSignIn(action) {
 
         case 9:
           _context.next = 11;
-          return (0, _effects.call)(_api2.AuthApi.signIn, searchQuery);
+          return (0, _effects.call)(_api.AuthApi.signIn, searchQuery);
 
         case 11:
           response = _context.sent;
@@ -198,7 +196,7 @@ function fetchLogOut(action) {
 
         case 12:
           _context2.next = 14;
-          return (0, _effects.call)(_api2.AuthApi.logOut, searchQuery);
+          return (0, _effects.call)(_api.AuthApi.logOut, searchQuery);
 
         case 14:
           response = _context2.sent;
@@ -291,7 +289,7 @@ function renewToken(action) {
 
         case 12:
           _context3.next = 14;
-          return (0, _effects.call)(_api2.AuthApi.renewToken, searchQuery);
+          return (0, _effects.call)(_api.AuthApi.renewToken, searchQuery);
 
         case 14:
           response = _context3.sent;

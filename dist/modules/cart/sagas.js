@@ -19,9 +19,9 @@ var _SagasHelper = _interopRequireDefault(require("@kakadu-dev/base-frontend-hel
 
 var _SagasHelper2 = require("helpers/Redux/SagasHelper");
 
-var _selectors = require("modules/selectors");
+var _selectors = require("../selectors");
 
-var _user = require("modules/user");
+var _user = require("../user");
 
 var _actionCreators = require("./actionCreators");
 
